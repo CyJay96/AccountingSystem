@@ -10,7 +10,7 @@ public class Main {
             System.out.print("Сколько вы хотите построить домов? ");
             int countHouses = in.nextInt();
             System.out.println();
-            House[] houses = new House[countHouses];
+            ArrayList<House> houses = new ArrayList<>(countHouses);
 
             for (int i = 0; i < countHouses; ++i) {
                 System.out.print("Сколько этажей будет в доме номер " + (i + 1) + "? ");
@@ -21,13 +21,13 @@ public class Main {
                 int flatArea = in.nextInt();
                 System.out.println();
 
-                houses[i] = new House(countFloors, countFlatsOnOneFloor, flatArea); // builder
+                houses.add(new House(countFloors, countFlatsOnOneFloor, flatArea)); // builder
             }
             System.out.println();
 
             System.out.println("Вы построили " + countHouses + " домов");
             for (int i = 0; i < countHouses; ++i) {
-                System.out.println("Дом номер " + (i + 1) + ": " + houses[i]);
+                System.out.println("Дом номер " + (i + 1) + ": " + houses.get(i));
             }
         } else { // если в файле есть объекты
 

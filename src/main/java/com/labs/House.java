@@ -1,7 +1,8 @@
 package com.labs;
 
+import java.util.ArrayList;
+
 public class House {
-    private int countFloors; // count of floors in this house
     private int countFlatsOnOneFloor; // count flats on a floor
     private double flatArea; // area of a flat
 
@@ -9,52 +10,65 @@ public class House {
     private int countAllFlats; // count of all flats in this house
     private int countPeople; // count of people in this house
 
-    private Floor[] floors; // floors in this house
+    ArrayList<Floor> floors; // floors in this house
 
     public House(int countFloors, int countFlatsOnOneFloor, double flatArea) {
-        this.countFloors = countFloors;
         this.countFlatsOnOneFloor = countFlatsOnOneFloor;
         this.flatArea = flatArea;
 
-        floors = new Floor[countFloors];
+        floors = new ArrayList<>();
         for (int i = 0; i < countFloors; ++i) {
-            floors[i] = new Floor(countFlatsOnOneFloor);
+            floors.add(new Floor(countFlatsOnOneFloor)); // builder
         }
 
         houseArea = flatArea * countFlatsOnOneFloor;
         countAllFlats = countFlatsOnOneFloor * countFloors;
+        countPeople = 0;
         for (int i = 0; i < countFloors; ++i) {
-            countPeople += floors[i].getCountPeople();
+            countPeople += floors.get(i).getCountPeople();
         }
     }
 
     public void setCountFloors(int countFloors) {
-        this.countFloors = countFloors;
         countAllFlats = countFlatsOnOneFloor * countFloors;
-        for (int i = 0; i < countFloors; ++i) {
-            countPeople += floors[i].getCountPeople();
+
+        if (floors.size() <= countFloors) {
+            for (int i = floors.size(); i < countFloors; ++i) {
+                floors.add(new Floor(countFlatsOnOneFloor));
+            }
+        } else {
+            for (int i = floors.size() - 1; i >= countFloors; --i) {
+                floors.remove(i);
+            }
+        }
+
+        countPeople = 0;
+        for (int i = 0; i < floors.size(); ++i) {
+            countPeople += floors.get(i).getCountPeople();
         }
     }
 
-    public int getCountFloors() {
-        return countFloors;
+    public int getCountFloors() { // get count of floors
+        return floors.size();
     }
 
     public void setCountFlatsOnOneFloor(int countFlatsOnOneFloor) {
         this.countFlatsOnOneFloor = countFlatsOnOneFloor;
         houseArea = flatArea * countFlatsOnOneFloor;
-        countAllFlats = countFlatsOnOneFloor * countFloors;
-        for (int i = 0; i < countFloors; ++i) {
-            countPeople += floors[i].getCountPeople();
+        countAllFlats = countFlatsOnOneFloor * floors.size();
+
+        for (int i = 0; i < floors.size(); ++i) {
+            floors.get(i).setCountFlats(countFlatsOnOneFloor);
+        }
+
+        countPeople = 0;
+        for (int i = 0; i < floors.size(); ++i) {
+            countPeople += floors.get(i).getCountPeople();
         }
     }
 
     public int getCountFlatsOnOneFloor() {
         return countFlatsOnOneFloor;
-    }
-
-    public int getCountAllFlats() {
-        return countAllFlats;
     }
 
     public void setFlatArea(double flatArea) {
@@ -66,10 +80,27 @@ public class House {
         return flatArea;
     }
 
+    public void setHouseArea(double houseArea) {
+        this.houseArea = houseArea;
+        flatArea = houseArea / countFlatsOnOneFloor;
+    }
+
+    public double getHouseArea() { // get area of the house
+        return houseArea;
+    }
+
+    public int getCountAllFlats() {
+        return countAllFlats;
+    }
+
+    public int getCountPeople() { // get count of people
+        return countPeople;
+    }
+
     @Override
     public String toString() {
         return "House {" +
-                "countFloors = " + countFloors +
+                "countFloors = " + floors.size() +
                 ", countFlatsOnOneFloor = " + countFlatsOnOneFloor +
                 ", flatArea = " + flatArea +
                 '}';
