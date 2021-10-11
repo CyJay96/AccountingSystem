@@ -1,11 +1,11 @@
 package com.labs;
 
 public class Floor {
-    private int countFlats;
+    private int countFlats; // count of flats on this floor
 
-    private Flat[] flats;
+    private Flat[] flats; // flats on this floor
 
-    private int countPeople;
+    private int countPeople; // count of people on this floor
 
     public Floor(int countFlats) {
         this.countFlats = countFlats;
@@ -22,14 +22,13 @@ public class Floor {
 
     public void setCountFlats(int countFlats) {
         this.countFlats = countFlats;
+        for (int i = 0; i < countFlats; ++i) {
+            countPeople += flats[i].getCountPeople();
+        }
     }
 
     public int getCountFlats() {
         return countFlats;
-    }
-
-    public void setCountPeople(int countPeople) {
-        this.countPeople = countPeople;
     }
 
     public int getCountPeople() {

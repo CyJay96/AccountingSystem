@@ -1,15 +1,15 @@
 package com.labs;
 
 public class House {
-    private int countFloors;
-    private int countFlatsOnOneFloor;
-    private double flatArea;
+    private int countFloors; // count of floors in this house
+    private int countFlatsOnOneFloor; // count flats on a floor
+    private double flatArea; // area of a flat
 
-    private double houseArea;
-    private int countAllFlats;
-    private int countPeople;
+    private double houseArea; // area of house = area of a floor
+    private int countAllFlats; // count of all flats in this house
+    private int countPeople; // count of people in this house
 
-    private Floor[] floors;
+    private Floor[] floors; // floors in this house
 
     public House(int countFloors, int countFlatsOnOneFloor, double flatArea) {
         this.countFloors = countFloors;
@@ -31,6 +31,9 @@ public class House {
     public void setCountFloors(int countFloors) {
         this.countFloors = countFloors;
         countAllFlats = countFlatsOnOneFloor * countFloors;
+        for (int i = 0; i < countFloors; ++i) {
+            countPeople += floors[i].getCountPeople();
+        }
     }
 
     public int getCountFloors() {
@@ -39,14 +42,15 @@ public class House {
 
     public void setCountFlatsOnOneFloor(int countFlatsOnOneFloor) {
         this.countFlatsOnOneFloor = countFlatsOnOneFloor;
+        houseArea = flatArea * countFlatsOnOneFloor;
+        countAllFlats = countFlatsOnOneFloor * countFloors;
+        for (int i = 0; i < countFloors; ++i) {
+            countPeople += floors[i].getCountPeople();
+        }
     }
 
     public int getCountFlatsOnOneFloor() {
         return countFlatsOnOneFloor;
-    }
-
-    public void setCountAllFlats(int countAllFlats) {
-        this.countAllFlats = countAllFlats;
     }
 
     public int getCountAllFlats() {
@@ -55,6 +59,7 @@ public class House {
 
     public void setFlatArea(double flatArea) {
         this.flatArea = flatArea;
+        houseArea = flatArea * countFlatsOnOneFloor;
     }
 
     public double getFlatArea() {
