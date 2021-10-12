@@ -9,11 +9,11 @@ public class Floor {
     private int countPeopleInOneFlat; // count of people in a flat
 
     public Floor(int countFlats) {
-        countPeopleInOneFlat = 3;
+        countPeopleInOneFlat = (int)(Math.random() * 3) - 2; // [2; 4]
 
         flats = new ArrayList<>();
         for (int i = 0; i < countFlats; ++i) {
-            flats.add(new Flat(countPeopleInOneFlat)); // builder
+            flats.add(new Flat(countPeopleInOneFlat));
         }
 
         countPeople = 0;

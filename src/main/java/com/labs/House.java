@@ -18,7 +18,7 @@ public class House {
 
         floors = new ArrayList<>();
         for (int i = 0; i < countFloors; ++i) {
-            floors.add(new Floor(countFlatsOnOneFloor)); // builder
+            floors.add(new Floor(countFlatsOnOneFloor));
         }
 
         houseArea = flatArea * countFlatsOnOneFloor;
@@ -99,10 +99,8 @@ public class House {
 
     @Override
     public String toString() {
-        return "House {" +
-                "countFloors = " + floors.size() +
-                ", countFlatsOnOneFloor = " + countFlatsOnOneFloor +
-                ", flatArea = " + flatArea +
-                '}';
+        return "Count of floors = " + floors.size() +
+                ", Count flats on a floor = " + countFlatsOnOneFloor +
+                ", Area of a flat = " + flatArea;
     }
 }
