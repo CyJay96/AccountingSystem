@@ -103,4 +103,8 @@ public class House {
                 ", Count flats on a floor = " + countFlatsOnOneFloor +
                 ", Area of a flat = " + flatArea;
     }
+
+    public void equals(House house) {
+        ///
+    }
 }
