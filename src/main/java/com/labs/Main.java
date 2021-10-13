@@ -34,67 +34,154 @@ public class Main {
                     file.createNewFile();
                 }
 
-                if (file.length() == 0) { // if the file is empty
+                if (file.length() == 0) { // if file is empty
                     System.out.print("How many houses do you want to build? ");
-                    int countHouses = in.nextInt();
+                    int countHouses = inputIntOneParam(0);
                     buildHouse(houses, countHouses, file);
-                } else { // if the file is not empty
+                } else { // if file is not empty
                     houses.clear();
                     readDataBase(file, houses);
 
-                    System.out.println("Please, select an action: (1-3)");
+                    System.out.println("Please, select an action (1-4):");
 
                     System.out.println("1) Add elements");
                     System.out.println("2) Viewing elements");
                     System.out.println("3) Comparison of elements");
                     System.out.println("4) Exit");
 
-                    int choice = in.nextInt();
+                    int choice = inputIntTwoParam(1, 4);
 
                     switch (choice) {
-                        case 1:
+                        case 1: // Add elements
                             System.out.print("How many houses do you want to build? ");
-                            int countHouses = in.nextInt();
+                            int countHouses = inputIntOneParam(0);
                             buildHouse(houses, countHouses, file);
                             break;
-                        case 2:
-                            System.out.println("All houses built:");
-                            for (int i = 0; i < houses.size(); ++i) {
-                                System.out.println("House number " + (i + 1) + ": " + houses.get(i));
+                        case 2: // Viewing elements
+                            System.out.println("1) General view of elements");
+                            System.out.println("2) Detailed view of a separate house");
+                            System.out.println("3) Exit");
+
+                            int inChoice = inputIntTwoParam(1, 3);
+                            switch (inChoice) {
+                                case 1: // General view of elements
+                                    System.out.println("All houses built:");
+                                    for (int i = 0; i < houses.size(); ++i) {
+                                        System.out.println("House number " + (i + 1) + ": " + houses.get(i));
+                                    }
+                                    break;
+                                case 2: // Detailed view of a separate house
+                                    System.out.print("Choose a house number (1-" + houses.size() + "): ");
+                                    int houseNumber = inputIntTwoParam(1, houses.size());
+                                    try {
+                                        System.out.println("Total area of the house: " + houses.get(houseNumber - 1).getHouseArea());
+                                        System.out.println("Number of floors of the house: " + houses.get(houseNumber - 1).getCountFloors());
+                                        System.out.println("Number of people living: " + houses.get(houseNumber - 1).getCountPeople());
+                                    } catch (Exception e) {
+                                        System.out.println("Something went wrong");
+                                    }
+                                    break;
+                                case 3: // Exit
+                                    break;
+                                default:
+                                    System.out.println("Please, try again");
                             }
                             break;
-                        case 3:
-                            ///
+                        case 3: // Comparison of elements
+                            System.out.println("1) Compare houses");
+                            System.out.println("2) Compare flats");
+                            System.out.println("3) Exit");
+
+                            int compareChoice = inputIntTwoParam(1, 3);
+                            switch (compareChoice) {
+                                case 1: // Compare houses
+                                    System.out.println("Please, enter a number of house 1 (1-" + houses.size() + "):");
+                                    int houseNumber1 = inputIntTwoParam(1, houses.size());
+                                    System.out.println("Please, enter a number of house 2 (1-" + houses.size() + "):");
+                                    int houseNumber2 = inputIntTwoParam(1, houses.size());
+                                    try {
+                                        houses.get(houseNumber1 - 1).equals(houses.get(houseNumber2 - 1));
+                                    } catch (Exception e) {
+                                        System.out.println("Something went wrong");
+                                    }
+                                    break;
+                                case 2: // Compare flats
+                                    ///
+                                    break;
+                                case 3: // Exit
+                                    break;
+                                default:
+                                    System.out.println("Please, try again");
+                            }
                             break;
-                        case 4:
+                        case 4: // Exit
                             break;
                         default:
                             System.out.println("Please, try again");
                     }
                 }
             } catch (IOException e) {
+                System.out.println("Something went wrong");
                 System.out.println("Error: " + e);
             }
         }
     }
 
+    public static int inputIntOneParam(int lowerBound) {
+        Scanner in = new Scanner(System.in);
+
+        int data = 0;
+        try {
+            data = in.nextInt();
+            while (data < lowerBound) {
+                System.out.println("Please, try again");
+                data = in.nextInt();
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+
+        return data;
+    }
+
+    public static int inputIntTwoParam(int lowerBound, int upperBound) {
+        Scanner in = new Scanner(System.in);
+
+        int data = 0;
+        try {
+            data = in.nextInt();
+            while (data < lowerBound || data > upperBound) {
+                System.out.println("Please, try again");
+                data = in.nextInt();
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+
+        return data;
+    }
+
     public static void buildHouse(ArrayList<House> houses, int countHouses, File file) {
         Scanner in = new Scanner((System.in));
 
-        for (int i = 0; i < countHouses; ++i) {
-            System.out.print("How many floors will there be in house number " + (i + 1) + "? ");
-            int countFloors = in.nextInt();
-            System.out.print("How many flats will there be on one floor? ");
-            int countFlatsOnOneFloor = in.nextInt();
-            System.out.print("What will be the area of a flat? ");
-            int flatArea = in.nextInt();
-            System.out.println();
+        try {
+            for (int i = 0; i < countHouses; ++i) {
+                System.out.print("How many floors will there be in house number " + (i + 1) + "? ");
+                int countFloors = inputIntOneParam(1);
+                System.out.print("How many flats will there be on one floor? ");
+                int countFlatsOnOneFloor = inputIntOneParam(1);
+                System.out.print("What will be the area of a flat? ");
+                double flatArea = in.nextDouble(); //////////////////////////////////////////
+                System.out.println();
 
-            houses.add(new House(countFloors, countFlatsOnOneFloor, flatArea));
-            fillDataBase(file, houses.get(houses.size() - 1));
+                houses.add(new House(countFloors, countFlatsOnOneFloor, flatArea));
+                fillDataBase(file, houses.get(houses.size() - 1));
+
+                System.out.println("You have built " + countHouses + " houses");
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
         }
-
-        System.out.println("You have built " + countHouses + " houses");
     }
 
     public static void fillDataBase(File file, House house) {
