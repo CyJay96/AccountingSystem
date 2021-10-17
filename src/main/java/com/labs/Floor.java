@@ -7,13 +7,16 @@ public class Floor {
 
     private int countPeople; // count of people on a floor
     private int countPeopleInOneFlat; // count of people in a flat
+    private int floorNumber;
 
-    public Floor(int countFlats) {
+    public Floor(int countFlats, int floorNumber) {
+        this.floorNumber = floorNumber;
         countPeopleInOneFlat = (int)(Math.random() * 2) + 2; // [2; 4]
 
         flats = new ArrayList<>();
         for (int i = 0; i < countFlats; ++i) {
-            flats.add(new Flat(countPeopleInOneFlat, i + 1));
+            int flatNumber = (floorNumber - 1) * countFlats + i + 1;
+            flats.add(new Flat(countPeopleInOneFlat, flatNumber));
         }
 
         countPeople = 0;
@@ -45,5 +48,13 @@ public class Floor {
 
     public int getCountPeople() {
         return countPeople;
+    }
+
+    public void setFloorNumber(int floorNumber) {
+        this.floorNumber = floorNumber;
+    }
+
+    public int getFloorNumber() {
+        return floorNumber;
     }
 }

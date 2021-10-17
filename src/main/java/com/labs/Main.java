@@ -1,6 +1,11 @@
 package com.labs;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -39,7 +44,6 @@ public class Main {
                     int countHouses = inputIntOneParam(0);
                     buildHouse(houses, countHouses, file);
                 } else { // if file is not empty
-                    houses.clear();
                     readDataBase(file, houses);
 
                     System.out.println("Please, select an action (1-4):");
@@ -93,20 +97,39 @@ public class Main {
                             System.out.println("3) Exit");
 
                             int compareChoice = inputIntTwoParam(1, 3);
+                            int houseNumber1 = 0;
+                            int houseNumber2 = 0;
                             switch (compareChoice) {
                                 case 1: // Compare houses
                                     System.out.println("Please, enter a number of house 1 (1-" + houses.size() + "):");
-                                    int houseNumber1 = inputIntTwoParam(1, houses.size());
+                                    houseNumber1 = inputIntTwoParam(1, houses.size());
                                     System.out.println("Please, enter a number of house 2 (1-" + houses.size() + "):");
-                                    int houseNumber2 = inputIntTwoParam(1, houses.size());
+                                    houseNumber2 = inputIntTwoParam(1, houses.size());
                                     try {
-                                        houses.get(houseNumber1 - 1).equals(houses.get(houseNumber2 - 1));
+                                        houses.get(houseNumber1 - 1).equalsHouses(houses.get(houseNumber2 - 1));
                                     } catch (Exception e) {
                                         System.out.println("Something went wrong");
                                     }
                                     break;
                                 case 2: // Compare flats
-                                    ///
+                                    System.out.println("Please, enter a number of the house 1 (1-" + houses.size() + "):");
+                                    houseNumber1 = inputIntTwoParam(1, houses.size());
+                                    int countFlatInHouse1 = houses.get(houseNumber1 - 1).getCountAllFlats();
+                                    System.out.println("Please, enter a number of the flat 1 (1-" + countFlatInHouse1 + "):");
+                                    int flatNumber1 = inputIntTwoParam(1, countFlatInHouse1);
+
+                                    System.out.println("Please, enter a number of house 2 (1-" + houses.size() + "):");
+                                    houseNumber2 = inputIntTwoParam(1, houses.size());
+                                    int countFlatInHouse2 = houses.get(houseNumber2 - 1).getCountAllFlats();
+                                    System.out.println("Please, enter a number of the flat 2 (1-" + countFlatInHouse2 + "):");
+                                    int flatNumber2 = inputIntTwoParam(1, countFlatInHouse2);
+
+                                    try {
+                                        houses.get(houseNumber1 - 1).equalsFlats(flatNumber1, houses.get(houseNumber2 - 1), flatNumber2);
+                                    } catch (Exception e) {
+                                        System.out.println("Something went wrong");
+                                    }
+                                    System.out.println();
                                     break;
                                 case 3: // Exit
                                     break;
