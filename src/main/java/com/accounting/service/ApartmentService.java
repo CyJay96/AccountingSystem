@@ -38,8 +38,8 @@ public class ApartmentService {
         updateApartmentsId(apartments);
     }
 
-    public boolean compare(Apartment apartment1, Apartment apartment2) {
-        return apartment1.equals(apartment2);
+    public boolean compare(List<Apartment> apartments, int firstApartmentId, int secondApartmentId) {
+        return apartments.get(firstApartmentId).equals(apartments.get(secondApartmentId));
     }
 
     public void updateApartmentsId(List<Apartment> apartments) {

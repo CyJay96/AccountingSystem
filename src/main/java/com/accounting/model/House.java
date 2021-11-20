@@ -60,7 +60,8 @@ public class House implements Externalizable {
 
     @Override
     public String toString() {
-        return "House " + id + ": count of floors = " + floors.size() + ", floors:" + '\n' + floors;
+        return "House " + id + ": count of floors = " + floors.size() + ", count of apartments = " +
+                countFlatsOnFloor * floors.size();
     }
 
     @Override

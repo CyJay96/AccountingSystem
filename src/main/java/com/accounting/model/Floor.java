@@ -51,7 +51,7 @@ public class Floor implements Externalizable {
 
     @Override
     public String toString() {
-        return "Floor " + id + ": count of apartments = " + apartments.size() + ", apartments: " + '\n' + apartments;
+        return "Floor " + id + ": count of apartments = " + apartments.size();
     }
 
     @Override

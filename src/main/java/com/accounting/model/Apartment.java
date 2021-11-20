@@ -70,7 +70,7 @@ public class Apartment implements Externalizable {
     @Override
     public String toString() {
         return "Apartment " + id + ": count of people = " + countPeople +
-                ", count of rooms = " + countRooms + ", area = " + area + '\n';
+                ", count of rooms = " + countRooms + ", area = " + area;
     }
 
     @Override

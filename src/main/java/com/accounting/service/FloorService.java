@@ -30,18 +30,18 @@ public class FloorService {
         updateFloorsId(floors);
     }
 
-    public int getCountPeople(Floor floor) {
+    public int getCountPeople(List<Floor> floors, int id) {
         int countPeople = 0;
 
-        for (Apartment apartment : floor.getApartments()) {
+        for (Apartment apartment : floors.get(id).getApartments()) {
             countPeople += apartment.getCountPeople();
         }
 
         return countPeople;
     }
 
-    public boolean compare(Floor floor1, Floor floor2) {
-        return floor1.equals(floor2);
+    public boolean compare(List<Floor> floors, int firstFloorId, int secondFloorId) {
+        return floors.get(firstFloorId).equals(floors.get(secondFloorId));
     }
 
     public void updateFloorsId(List<Floor> floors) {

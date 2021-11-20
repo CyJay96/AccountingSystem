@@ -46,7 +46,9 @@ public class HouseService {
     }
 
     public void viewAllHouses(List<House> houses) {
-        System.out.println(houses);
+        for (House house : houses) {
+            System.out.println(house);
+        }
     }
 
     public void viewHouseById(List<House> houses, int id) {
@@ -75,8 +77,8 @@ public class HouseService {
 
         int countPeople = 0;
 
-        for (Floor floor : houses.get(id).getFloors()) {
-            countPeople += floorService.getCountPeople(floor);
+        for (int i = 0; i < houses.get(id).getFloors().size(); ++i) {
+            countPeople += floorService.getCountPeople(houses.get(id).getFloors(), i);
         }
 
         return countPeople;
