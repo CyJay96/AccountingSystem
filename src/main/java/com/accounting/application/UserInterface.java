@@ -47,7 +47,15 @@ public class UserInterface {
 
             switch (userChoice) {
                 case 1: // add the house
-                    houseService.addHouse(houses);
+                    int minCountFloorsOrFlats = 1;
+
+                    System.out.print("Enter the number of floors: ");
+                    int countFloors = inputValidation.inputIntValue(minCountFloorsOrFlats);
+
+                    System.out.print("Enter the number of apartments on a floor: ");
+                    int countFlatsOnFloor = inputValidation.inputIntValue(minCountFloorsOrFlats);
+
+                    houseService.addHouse(houses, countFloors, countFlatsOnFloor);
                     dataBaseService.writeDataBase(houses, dataBaseName);
                     break;
                 case 2: // remove the house
@@ -67,8 +75,8 @@ public class UserInterface {
                     if (houses.isEmpty()) {
                         System.out.println("No houses to view");
                     } else {
-                        System.out.println("Existing users:");
-                        houseService.viewAllHouses(houses);
+                        System.out.println("Existing houses:");
+                        System.out.println(houseService.viewAllHouses(houses));
                     }
                     break;
                 case 4: // detailed view of the house

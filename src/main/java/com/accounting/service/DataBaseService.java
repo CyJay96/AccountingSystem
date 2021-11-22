@@ -20,9 +20,7 @@ public class DataBaseService {
 
     public void readDataBase(List<House> houses, String dataBaseName) {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(dataBaseName))) {
-            for (House house : (List<House>) objectInputStream.readObject()) {
-                houses.add(house);
-            }
+            houses.addAll((List<House>) objectInputStream.readObject());
         } catch (Exception exception) {
             System.out.println("Something went wrong: " + exception.getMessage());
         }

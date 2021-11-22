@@ -1,6 +1,5 @@
 package com.accounting.service;
 
-import com.accounting.builder.ApartmentBuilder;
 import com.accounting.model.Apartment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -18,11 +17,11 @@ class ApartmentServiceTest {
     void init() {
         apartments = new ArrayList<>();
 
-        Apartment apartment = new ApartmentBuilder()
-                .withId(0)
-                .withCountPeople(3)
-                .withCountRooms(4)
-                .withArea(65)
+        Apartment apartment = Apartment.builder()
+                .id(0)
+                .countPeople(3)
+                .countRooms(4)
+                .area(65)
                 .build();
         apartments.add(apartment);
     }
@@ -41,4 +40,5 @@ class ApartmentServiceTest {
 
         Assertions.assertEquals(expectedCompare, actualCompare);
     }
+
 }

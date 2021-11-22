@@ -1,40 +1,26 @@
 package com.accounting.service;
 
-import com.accounting.builder.HouseBuilder;
 import com.accounting.model.Apartment;
 import com.accounting.model.Floor;
 import com.accounting.model.House;
-import com.accounting.validation.InputValidation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class HouseService {
 
-    public void addHouse(List<House> houses) {
-        Scanner in = new Scanner(System.in);
-        InputValidation inputValidation = new InputValidation();
-
-        int minCountFloorsOrFlats = 1;
-
+    public void addHouse(List<House> houses, int countFloors, int countFlatsOnFloor) {
         FloorService floorService = new FloorService();
-
-        System.out.print("Enter the number of floors: ");
-        int countFloors = inputValidation.inputIntValue(minCountFloorsOrFlats);
-
-        System.out.print("Enter the number of apartments on a floor: ");
-        int countFlatsOnFloor = inputValidation.inputIntValue(minCountFloorsOrFlats);
 
         List<Floor> floors = new ArrayList<>();
         for (int i = 0; i < countFloors; ++i) {
             floorService.addFloor(floors, countFlatsOnFloor);
         }
 
-        House house = new HouseBuilder()
-                .withId(houses.size() + 1)
-                .withCountFlatsOnFloor(countFlatsOnFloor)
-                .withFloors(floors)
+        House house = House.builder()
+                .id(houses.size() - 1)
+                .countFlatsOnFloor(countFlatsOnFloor)
+                .floors(floors)
                 .build();
 
         houses.add(house);
@@ -45,14 +31,17 @@ public class HouseService {
         updateHousesId(houses);
     }
 
-    public void viewAllHouses(List<House> houses) {
+    public String viewAllHouses(List<House> houses) {
+        String housesInfo = "";
         for (House house : houses) {
-            System.out.println(house);
+            housesInfo += house + "\n";
         }
+
+        return housesInfo;
     }
 
-    public void viewHouseById(List<House> houses, int id) {
-        System.out.println(houses.get(id));
+    public String viewHouseById(List<House> houses, int id) {
+        return houses.get(id).toString();
     }
 
     public double getHouseArea(List<House> houses, int id) {

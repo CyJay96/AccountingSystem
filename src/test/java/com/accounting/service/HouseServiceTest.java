@@ -1,8 +1,5 @@
 package com.accounting.service;
 
-import com.accounting.builder.ApartmentBuilder;
-import com.accounting.builder.FloorBuilder;
-import com.accounting.builder.HouseBuilder;
 import com.accounting.model.Apartment;
 import com.accounting.model.Floor;
 import com.accounting.model.House;
@@ -26,24 +23,24 @@ class HouseServiceTest {
         floors = new ArrayList<>();
         apartments = new ArrayList<>();
 
-        Apartment apartment = new ApartmentBuilder()
-                .withId(0)
-                .withCountPeople(3)
-                .withCountRooms(4)
-                .withArea(65)
+        Apartment apartment = Apartment.builder()
+                .id(0)
+                .countPeople(3)
+                .countRooms(4)
+                .area(65)
                 .build();
         apartments.add(apartment);
 
-        Floor floor = new FloorBuilder()
-                .withId(0)
-                .withApartments(apartments)
+        Floor floor = Floor.builder()
+                .id(0)
+                .apartments(apartments)
                 .build();
         floors.add(floor);
 
-        House house = new HouseBuilder()
-                .withId(0)
-                .withCountFlatsOnFloor(4)
-                .withFloors(floors)
+        House house = House.builder()
+                .id(0)
+                .countFlatsOnFloor(4)
+                .floors(floors)
                 .build();
         houses.add(house);
     }

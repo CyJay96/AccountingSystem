@@ -1,71 +1,27 @@
 package com.accounting.model;
 
+
+import lombok.*;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.Objects;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@Builder(toBuilder = true)
 public class Apartment implements Externalizable {
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
     private int countPeople;
     private int countRooms;
     private double area;
-
-    public Apartment() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getCountPeople() {
-        return countPeople;
-    }
-
-    public void setCountPeople(int countPeople) {
-        this.countPeople = countPeople;
-    }
-
-    public int getCountRooms() {
-        return countRooms;
-    }
-
-    public void setCountRooms(int countRooms) {
-        this.countRooms = countRooms;
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
-    }
-
-    @Override
-    public boolean equals(Object ApartmentObject) {
-        if (this == ApartmentObject) {
-            return true;
-        }
-        if (ApartmentObject == null || getClass() != ApartmentObject.getClass()) {
-            return false;
-        }
-        Apartment apartment = (Apartment) ApartmentObject;
-
-        return id == apartment.id && countPeople == apartment.countPeople && countRooms == apartment.countRooms
-                && Double.compare(apartment.area, area) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, countPeople, countRooms, area);
-    }
 
     @Override
     public String toString() {

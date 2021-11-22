@@ -1,6 +1,5 @@
 package com.accounting.service;
 
-import com.accounting.builder.ApartmentBuilder;
 import com.accounting.model.Apartment;
 import com.accounting.model.Floor;
 
@@ -23,11 +22,11 @@ public class ApartmentService {
             area = floors.get(indexFirstFloor).getApartments().get(apartments.size()).getArea();
         }
 
-        Apartment apartment = new ApartmentBuilder()
-                .withId(apartments.size() + 1)
-                .withCountPeople(countPeople)
-                .withCountRooms(countRooms)
-                .withArea(area)
+        Apartment apartment = Apartment.builder()
+                .id(apartments.size() + 1)
+                .countPeople(countPeople)
+                .countRooms(countRooms)
+                .area(area)
                 .build();
 
         apartments.add(apartment);

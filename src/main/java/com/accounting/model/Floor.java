@@ -1,53 +1,26 @@
 package com.accounting.model;
 
+
+import lombok.*;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.List;
-import java.util.Objects;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@Builder(toBuilder = true)
 public class Floor implements Externalizable {
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
     private List<Apartment> apartments;
-
-    public Floor() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public List<Apartment> getApartments() {
-        return apartments;
-    }
-
-    public void setApartments(List<Apartment> apartments) {
-        this.apartments = apartments;
-    }
-
-    @Override
-    public boolean equals(Object FloorObject) {
-        if (this == FloorObject) {
-            return true;
-        }
-        if (FloorObject == null || getClass() != FloorObject.getClass()) {
-            return false;
-        }
-        Floor floor = (Floor) FloorObject;
-
-        return id == floor.id && Objects.equals(apartments, floor.apartments);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, apartments);
-    }
 
     @Override
     public String toString() {

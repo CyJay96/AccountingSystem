@@ -1,6 +1,5 @@
 package com.accounting.service;
 
-import com.accounting.builder.FloorBuilder;
 import com.accounting.model.Apartment;
 import com.accounting.model.Floor;
 
@@ -17,9 +16,9 @@ public class FloorService {
             apartmentService.addApartment(floors, apartments);
         }
 
-        Floor floor = new FloorBuilder()
-                .withId(floors.size() + 1)
-                .withApartments(apartments)
+        Floor floor = Floor.builder()
+                .id(floors.size() + 1)
+                .apartments(apartments)
                 .build();
 
         floors.add(floor);
