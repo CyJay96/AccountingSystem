@@ -32,19 +32,8 @@ public class ApartmentService {
         apartments.add(apartment);
     }
 
-    public void removeApartment(List<Apartment> apartments, int id) {
-        apartments.remove(id);
-        updateApartmentsId(apartments);
-    }
-
     public boolean compare(List<Apartment> apartments, int firstApartmentId, int secondApartmentId) {
         return apartments.get(firstApartmentId).equals(apartments.get(secondApartmentId));
-    }
-
-    public void updateApartmentsId(List<Apartment> apartments) {
-        for (int i = 0; i < apartments.size(); ++i) {
-            apartments.get(i).setId(i + 1);
-        }
     }
 
 }

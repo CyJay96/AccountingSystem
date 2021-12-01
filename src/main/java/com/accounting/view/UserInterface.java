@@ -1,4 +1,4 @@
-package com.accounting.application;
+package com.accounting.view;
 
 import com.accounting.model.House;
 import com.accounting.service.DataBaseService;
@@ -68,7 +68,6 @@ public class UserInterface {
                     int removeHouseChoice = inputValidation.inputIntValue(minCountHouses, maxCountHouses);
 
                     houseService.removeHouse(houses, removeHouseChoice - 1);
-                    houseService.updateHousesId(houses);
                     dataBaseService.writeDataBase(houses, dataBaseName);
                     break;
                 case 3: // viewing existing houses

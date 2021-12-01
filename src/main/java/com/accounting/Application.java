@@ -1,4 +1,6 @@
-package com.accounting.application;
+package com.accounting;
+
+import com.accounting.view.UserInterface;
 
 public class Application {
 

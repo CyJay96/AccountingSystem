@@ -18,7 +18,7 @@ public class HouseService {
         }
 
         House house = House.builder()
-                .id(houses.size() - 1)
+                .id(houses.size() + 1)
                 .countFlatsOnFloor(countFlatsOnFloor)
                 .floors(floors)
                 .build();
@@ -28,7 +28,6 @@ public class HouseService {
 
     public void removeHouse(List<House> houses, int id) {
         houses.remove(id);
-        updateHousesId(houses);
     }
 
     public String viewAllHouses(List<House> houses) {
@@ -75,12 +74,6 @@ public class HouseService {
 
     public boolean compare(List<House> houses, int firstHouseId, int secondHouseId) {
         return houses.get(firstHouseId).equals(houses.get(secondHouseId));
-    }
-
-    public void updateHousesId(List<House> houses) {
-        for (int i = 0; i < houses.size(); ++i) {
-            houses.get(i).setId(i + 1);
-        }
     }
 
 }

@@ -24,11 +24,6 @@ public class FloorService {
         floors.add(floor);
     }
 
-    public void removeFloor(List<Floor> floors, int id) {
-        floors.remove(id);
-        updateFloorsId(floors);
-    }
-
     public int getCountPeople(List<Floor> floors, int id) {
         int countPeople = 0;
 
@@ -41,12 +36,6 @@ public class FloorService {
 
     public boolean compare(List<Floor> floors, int firstFloorId, int secondFloorId) {
         return floors.get(firstFloorId).equals(floors.get(secondFloorId));
-    }
-
-    public void updateFloorsId(List<Floor> floors) {
-        for (int i = 0; i < floors.size(); ++i) {
-            floors.get(i).setId(i + 1);
-        }
     }
 
 }
