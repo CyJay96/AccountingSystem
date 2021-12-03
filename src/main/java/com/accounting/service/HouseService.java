@@ -1,79 +1,96 @@
 package com.accounting.service;
 
+import com.accounting.builder.HouseBuilder;
+import com.accounting.dao.HouseDaoImpl;
 import com.accounting.model.Apartment;
 import com.accounting.model.Floor;
 import com.accounting.model.House;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HouseService {
 
-    public void addHouse(List<House> houses, int countFloors, int countFlatsOnFloor) {
-        FloorService floorService = new FloorService();
+    private final HouseDaoImpl houseDao = new HouseDaoImpl();
 
-        List<Floor> floors = new ArrayList<>();
-        for (int i = 0; i < countFloors; ++i) {
-            floorService.addFloor(floors, countFlatsOnFloor);
-        }
+    public HouseService() {
+    }
 
-        House house = House.builder()
-                .id(houses.size() + 1)
+    public House findHouseSQL(int id) {
+        return houseDao.findById(id);
+    }
+
+    public void saveHouseSQL(House house) {
+        houseDao.save(house);
+    }
+
+    public void deleteHouseSQL(House house) {
+        houseDao.delete(house);
+    }
+
+    public void updateHouseSQL(House house) {
+        houseDao.update(house);
+    }
+
+    public List<House> findAllHousesSQL() {
+        return houseDao.findAll();
+    }
+
+    public Floor findFloorByIdSQL(int id) {
+        return houseDao.findFloorById(id);
+    }
+
+    public House createHouse(int countFloors, int countFlatsOnFloor) {
+        House house = new HouseBuilder()
                 .countFlatsOnFloor(countFlatsOnFloor)
-                .floors(floors)
                 .build();
 
-        houses.add(house);
-    }
-
-    public void removeHouse(List<House> houses, int id) {
-        houses.remove(id);
-    }
-
-    public String viewAllHouses(List<House> houses) {
-        String housesInfo = "";
-        for (House house : houses) {
-            housesInfo += house + "\n";
+        house.addFloor(new FloorService().createFloor(countFlatsOnFloor));
+        int indexFirstFloor = 0;
+        for (int i = 0; i < countFloors - 1; ++i) {
+            house.addFloor(new FloorService().cloneFloor(house.getFloors().get(indexFirstFloor)));
         }
 
-        return housesInfo;
+        return house;
     }
 
-    public String viewHouseById(List<House> houses, int id) {
-        return houses.get(id).toString();
+    public House findHouse(List<House> houses, int id) {
+        for (House house : houses) {
+            if (house.getId() == id) {
+                return house;
+            }
+        }
+        return null;
     }
 
-    public double getHouseArea(List<House> houses, int id) {
+    public double getHouseArea(House house) {
         double houseArea = 0;
         int indexFirstFloor = 0;
 
-        for (Apartment apartment : houses.get(id).getFloors().get(indexFirstFloor).getApartments()) {
+        for (Apartment apartment : house.getFloors().get(indexFirstFloor).getApartments()) {
             houseArea += apartment.getArea();
         }
 
-        houseArea = Math.ceil(houseArea * 100) / 100;
-
-        return houseArea;
+        return Math.ceil(houseArea * 100) / 100;
     }
 
-    public int getCountFloors(List<House> houses, int id) {
-        return houses.get(id).getFloors().size();
+    public int getCountFloors(House house) {
+        return house.getFloors().size();
     }
 
-    public int getCountPeople(List<House> houses, int id) {
+    public int getCountPeople(House house) {
         FloorService floorService = new FloorService();
 
         int countPeople = 0;
 
-        for (int i = 0; i < houses.get(id).getFloors().size(); ++i) {
-            countPeople += floorService.getCountPeople(houses.get(id).getFloors(), i);
+        for (int i = 0; i < house.getFloors().size(); ++i) {
+            countPeople += floorService.getCountPeople(house.getFloors().get(i));
         }
 
         return countPeople;
     }
 
-    public boolean compare(List<House> houses, int firstHouseId, int secondHouseId) {
-        return houses.get(firstHouseId).equals(houses.get(secondHouseId));
+    public boolean compare(House firstHouse, House secondHouse) {
+        return firstHouse.equals(secondHouse);
     }
 
 }

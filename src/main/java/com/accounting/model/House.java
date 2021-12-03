@@ -1,27 +1,68 @@
 package com.accounting.model;
 
 
-import lombok.*;
-
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
-@Builder(toBuilder = true)
-public class House implements Externalizable {
+@Entity
+@Table(name = "houses")
+public class House {
 
-    private static final long serialVersionUID = 1L;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "count_flats_on_floor")
     private int countFlatsOnFloor;
-    private List<Floor> floors;
+
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Floor> floors = new ArrayList<>();
+
+    public House() {
+    }
+
+    public House(int countFlatsOnFloor) {
+        this.countFlatsOnFloor = countFlatsOnFloor;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getCountFlatsOnFloor() {
+        return countFlatsOnFloor;
+    }
+
+    public void setCountFlatsOnFloor(int countFlatsOnFloor) {
+        this.countFlatsOnFloor = countFlatsOnFloor;
+    }
+
+    public List<Floor> getFloors() {
+        return floors;
+    }
+
+    public void setFloors(List<Floor> floors) {
+        this.floors = floors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        House house = (House) o;
+        return id == house.id && countFlatsOnFloor == house.countFlatsOnFloor && Objects.equals(floors, house.floors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, countFlatsOnFloor, floors);
+    }
 
     @Override
     public String toString() {
@@ -29,18 +70,13 @@ public class House implements Externalizable {
                 countFlatsOnFloor * floors.size();
     }
 
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(id);
-        out.writeObject(countFlatsOnFloor);
-        out.writeObject(floors);
+    public void addFloor(Floor floor) {
+        floor.setHouse(this);
+        floors.add(floor);
     }
 
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        id = (int) in.readObject();
-        countFlatsOnFloor = (int) in.readObject();
-        floors = (List<Floor>) in.readObject();
+    public void removeFloor(Floor floor) {
+        floors.remove(floor);
     }
 
 }

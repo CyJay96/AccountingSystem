@@ -1,12 +1,12 @@
 package com.accounting;
 
-import com.accounting.view.UserInterface;
+import com.accounting.view.UserView;
 
 public class Application {
 
     public static void main(String[] args) {
-        UserInterface userInterface = new UserInterface();
-        userInterface.start();
+        UserView userView = new UserView();
+        userView.run();
     }
 
 }
