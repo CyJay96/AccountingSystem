@@ -1,6 +1,8 @@
 package com.accounting.service;
 
+import com.accounting.builder.HouseBuilder;
 import com.accounting.dao.HouseDaoImpl;
+import com.accounting.model.Apartment;
 import com.accounting.model.Floor;
 import com.accounting.model.House;
 
@@ -8,103 +10,87 @@ import java.util.List;
 
 public class HouseService {
 
-    private HouseDaoImpl houseDao = new HouseDaoImpl();
+    private final HouseDaoImpl houseDao = new HouseDaoImpl();
 
     public HouseService() {
     }
 
-    public House findHouse(int id) {
+    public House findHouseSQL(int id) {
         return houseDao.findById(id);
     }
 
-    public void saveHouse(House house) {
+    public void saveHouseSQL(House house) {
         houseDao.save(house);
     }
 
-    public void deleteHouse(House house) {
+    public void deleteHouseSQL(House house) {
         houseDao.delete(house);
     }
 
-    public void updateHouse(House house) {
+    public void updateHouseSQL(House house) {
         houseDao.update(house);
     }
 
-    public List<House> findAllHouses() {
+    public List<House> findAllHousesSQL() {
         return houseDao.findAll();
     }
 
-    public Floor findAutoById(int id) {
+    public Floor findFloorByIdSQL(int id) {
         return houseDao.findFloorById(id);
     }
 
+    public House createHouse(int countFloors, int countFlatsOnFloor) {
+        House house = new HouseBuilder()
+                .countFlatsOnFloor(countFlatsOnFloor)
+                .build();
 
+        house.addFloor(new FloorService().createFloor(countFlatsOnFloor));
+        int indexFirstFloor = 0;
+        for (int i = 0; i < countFloors - 1; ++i) {
+            house.addFloor(new FloorService().cloneFloor(house.getFloors().get(indexFirstFloor)));
+        }
 
+        return house;
+    }
 
-//    public void addHouse(List<House> houses, int countFloors, int countFlatsOnFloor) {
-//        FloorService floorService = new FloorService();
-//
-//        List<Floor> floors = new ArrayList<>();
-//        for (int i = 0; i < countFloors; ++i) {
-//            floorService.addFloor(floors, countFlatsOnFloor);
-//        }
-//
-//        House house = House.builder()
-//                .id(houses.size() + 1)
-//                .countFlatsOnFloor(countFlatsOnFloor)
-//                .floors(floors)
-//                .build();
-//
-//        houses.add(house);
-//    }
-//
-//    public void removeHouse(List<House> houses, int id) {
-//        houses.remove(id);
-//    }
-//
-//    public String viewAllHouses(List<House> houses) {
-//        String housesInfo = "";
-//        for (House house : houses) {
-//            housesInfo += house + "\n";
-//        }
-//
-//        return housesInfo;
-//    }
-//
-//    public String viewHouseById(List<House> houses, int id) {
-//        return houses.get(id).toString();
-//    }
-//
-//    public double getHouseArea(List<House> houses, int id) {
-//        double houseArea = 0;
-//        int indexFirstFloor = 0;
-//
-//        for (Apartment apartment : houses.get(id).getFloors().get(indexFirstFloor).getApartments()) {
-//            houseArea += apartment.getArea();
-//        }
-//
-//        houseArea = Math.ceil(houseArea * 100) / 100;
-//
-//        return houseArea;
-//    }
-//
-//    public int getCountFloors(List<House> houses, int id) {
-//        return houses.get(id).getFloors().size();
-//    }
-//
-//    public int getCountPeople(List<House> houses, int id) {
-//        FloorService floorService = new FloorService();
-//
-//        int countPeople = 0;
-//
-//        for (int i = 0; i < houses.get(id).getFloors().size(); ++i) {
-//            countPeople += floorService.getCountPeople(houses.get(id).getFloors(), i);
-//        }
-//
-//        return countPeople;
-//    }
-//
-//    public boolean compare(List<House> houses, int firstHouseId, int secondHouseId) {
-//        return houses.get(firstHouseId).equals(houses.get(secondHouseId));
-//    }
+    public House findHouse(List<House> houses, int id) {
+        for (House house : houses) {
+            if (house.getId() == id) {
+                return house;
+            }
+        }
+        return null;
+    }
+
+    public double getHouseArea(House house) {
+        double houseArea = 0;
+        int indexFirstFloor = 0;
+
+        for (Apartment apartment : house.getFloors().get(indexFirstFloor).getApartments()) {
+            houseArea += apartment.getArea();
+        }
+
+        return Math.ceil(houseArea * 100) / 100;
+    }
+
+    public int getCountFloors(House house) {
+        return house.getFloors().size();
+    }
+
+    public int getCountPeople(House house) {
+        FloorService floorService = new FloorService();
+
+        int countPeople = 0;
+
+        for (int i = 0; i < house.getFloors().size(); ++i) {
+            countPeople += floorService.getCountPeople(house.getFloors().get(i));
+        }
+
+        return countPeople;
+    }
+
+    public boolean compare(House firstHouse, House secondHouse) {
+        return firstHouse.equals(secondHouse);
+    }
 
 }

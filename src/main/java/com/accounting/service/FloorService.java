@@ -1,38 +1,43 @@
 package com.accounting.service;
 
+import com.accounting.model.Apartment;
+import com.accounting.model.Floor;
+
 public class FloorService {
 
     public FloorService() {
     }
 
-//    public void addFloor(List<Floor> floors, int countFlatsOnFloor) {
-//        ApartmentService apartmentService = new ApartmentService();
-//
-//        List<Apartment> apartments = new ArrayList<>();
-//        for (int i = 0; i < countFlatsOnFloor; ++i) {
-//            apartmentService.addApartment(floors, apartments);
-//        }
-//
-//        Floor floor = Floor.builder()
-//                .id(floors.size() + 1)
-//                .apartments(apartments)
-//                .build();
-//
-//        floors.add(floor);
-//    }
-//
-//    public int getCountPeople(List<Floor> floors, int id) {
-//        int countPeople = 0;
-//
-//        for (Apartment apartment : floors.get(id).getApartments()) {
-//            countPeople += apartment.getCountPeople();
-//        }
-//
-//        return countPeople;
-//    }
-//
-//    public boolean compare(List<Floor> floors, int firstFloorId, int secondFloorId) {
-//        return floors.get(firstFloorId).equals(floors.get(secondFloorId));
-//    }
+    public Floor createFloor(int countFlats) {
+        Floor floor = new Floor();
+        for (int i = 0; i < countFlats; ++i) {
+            floor.addApartment(new ApartmentService().createApartment());
+        }
+
+        return floor;
+    }
+
+    public Floor cloneFloor(Floor floor) {
+        Floor newFloor = new Floor();
+        for (Apartment apartment : floor.getApartments()) {
+            newFloor.addApartment(new ApartmentService().cloneApartment(apartment));
+        }
+
+        return newFloor;
+    }
+
+    public int getCountPeople(Floor floor) {
+        int countPeople = 0;
+
+        for (Apartment apartment : floor.getApartments()) {
+            countPeople += apartment.getCountPeople();
+        }
+
+        return countPeople;
+    }
+
+    public boolean compare(Floor firstFloor, Floor secondFloor) {
+        return firstFloor.equals(secondFloor);
+    }
 
 }

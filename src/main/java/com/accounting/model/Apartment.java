@@ -6,7 +6,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "apartments")
-//@Builder(toBuilder = true)
 public class Apartment {
 
     @Id
@@ -81,8 +80,12 @@ public class Apartment {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Apartment apartment = (Apartment) o;
         return id == apartment.id && countPeople == apartment.countPeople && countRooms == apartment.countRooms && Double.compare(apartment.area, area) == 0 && Objects.equals(floor, apartment.floor);
     }

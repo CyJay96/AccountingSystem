@@ -10,8 +10,14 @@ import java.util.List;
 
 public class HouseDaoImpl implements HouseDao {
 
+    public HouseDaoImpl() {
+    }
+
     public House findById(int id) {
-        return HibernateSessionFactory.getSessionFactory().openSession().get(House.class, id);
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        House house = session.get(House.class, id);
+        session.close();
+        return house;
     }
 
     public void save(House house) {
@@ -39,11 +45,17 @@ public class HouseDaoImpl implements HouseDao {
     }
 
     public Floor findFloorById(int id) {
-        return HibernateSessionFactory.getSessionFactory().openSession().get(Floor.class, id);
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Floor floor = session.get(Floor.class, id);
+        session.close();
+        return floor;
     }
 
     public List<House> findAll() {
-        return (List<House>) HibernateSessionFactory.getSessionFactory().openSession().createQuery("From House").list();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        List<House> houses = (List<House>) session.createQuery("FROM User").list();
+        session.close();
+        return houses;
     }
 
 }

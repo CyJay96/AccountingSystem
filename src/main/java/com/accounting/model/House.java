@@ -8,7 +8,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "houses")
-//@Builder(toBuilder = true)
 public class House {
 
     @Id
@@ -27,12 +26,6 @@ public class House {
     public House(int countFlatsOnFloor) {
         this.countFlatsOnFloor = countFlatsOnFloor;
     }
-
-//    public House(int id, int countFlatsOnFloor, List<Floor> floors) {
-//        this.id = id;
-//        this.countFlatsOnFloor = countFlatsOnFloor;
-//        this.floors = floors;
-//    }
 
     public int getId() {
         return id;
@@ -56,8 +49,12 @@ public class House {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         House house = (House) o;
         return id == house.id && countFlatsOnFloor == house.countFlatsOnFloor && Objects.equals(floors, house.floors);
     }
