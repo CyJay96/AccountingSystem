@@ -35,10 +35,6 @@ public class HouseService {
         return houseDao.findAll();
     }
 
-    public Floor findFloorByIdSQL(int id) {
-        return houseDao.findFloorById(id);
-    }
-
     public House createHouse(int countFloors, int countFlatsOnFloor) {
         House house = new HouseBuilder()
                 .countFlatsOnFloor(countFlatsOnFloor)
@@ -51,6 +47,17 @@ public class HouseService {
         }
 
         return house;
+    }
+
+    public House cloneHouse(House house) {
+        House newHouse = new HouseBuilder()
+                .countFlatsOnFloor(house.getCountFlatsOnFloor())
+                .build();
+        for (Floor floor : house.getFloors()) {
+            newHouse.addFloor(new FloorService().cloneFloor(floor));
+        }
+
+        return newHouse;
     }
 
     public House findHouse(List<House> houses, int id) {

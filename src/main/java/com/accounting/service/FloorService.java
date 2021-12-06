@@ -8,9 +8,9 @@ public class FloorService {
     public FloorService() {
     }
 
-    public Floor createFloor(int countFlats) {
+    public Floor createFloor(int countApartments) {
         Floor floor = new Floor();
-        for (int i = 0; i < countFlats; ++i) {
+        for (int i = 0; i < countApartments; ++i) {
             floor.addApartment(new ApartmentService().createApartment());
         }
 

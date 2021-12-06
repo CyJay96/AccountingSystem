@@ -7,26 +7,21 @@ import java.util.Scanner;
 
 public class ViewService {
 
-    public String getViewAllHouses(List<House> houses) {
-        String housesInfo = "";
+    public void viewAllHouses(List<House> houses) {
         for (House house : houses) {
-            housesInfo += house + "\n";
+            System.out.println(house.toString());
         }
+    }
 
-        return housesInfo;
+    public void viewIdAllHouses(List<House> houses) {
+        for (House house : houses) {
+            System.out.print(house.getId() + " ");
+        }
+        System.out.println();
     }
 
     public String getViewHouseById(List<House> houses, int id) {
         return houses.get(id).toString();
-    }
-
-    public String getIdExistingHouses(List<House> houses) {
-        String idExistingHouses = "";
-        for (House house : houses) {
-            idExistingHouses += house.getId() + " ";
-        }
-
-        return idExistingHouses;
     }
 
     public int inputHouseId(List<House> houses) {

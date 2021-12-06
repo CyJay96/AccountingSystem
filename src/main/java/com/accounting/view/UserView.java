@@ -54,7 +54,8 @@ public class UserView {
                         break;
                     }
 
-                    System.out.print("Select the house to remove: " + new ViewService().getIdExistingHouses(houses));
+                    System.out.print("Select the house to remove: ");
+                    new ViewService().viewIdAllHouses(houses);
                     int removeHouseId = new ViewService().inputHouseId(houses);
 
                     House h = new HouseService().createHouse(1, 2);
@@ -68,7 +69,7 @@ public class UserView {
                         System.out.println("No houses to view");
                     } else {
                         System.out.println("Existing houses:");
-                        System.out.println(new ViewService().getViewAllHouses(houses));
+                        new ViewService().viewAllHouses(houses);
                     }
                     break;
                 case 4: // detailed view of the house
@@ -77,7 +78,8 @@ public class UserView {
                         break;
                     }
 
-                    System.out.print("Select the house to detailed view: " + new ViewService().getIdExistingHouses(houses));
+                    System.out.print("Select the house to detailed view: ");
+                    new ViewService().viewIdAllHouses(houses);
                     int viewHouseId = new ViewService().inputHouseId(houses);
 
                     int minDetailedOption = 1;
@@ -119,11 +121,11 @@ public class UserView {
                     }
                     break;
                 case 5: // compare houses
-                    System.out.println("Enter the number of the first house for comparison: " +
-                            new ViewService().getIdExistingHouses(houses));
+                    System.out.print("Select the first house for comparison: ");
+                    new ViewService().viewIdAllHouses(houses);
                     int firstHouseId = new ViewService().inputHouseId(houses);
-                    System.out.println("Enter the number of the second house for comparison: " +
-                            new ViewService().getIdExistingHouses(houses));
+                    System.out.print("Select the second house for comparison: ");
+                    new ViewService().viewIdAllHouses(houses);
                     int secondHouseId = new ViewService().inputHouseId(houses);
 
                     if (new HouseService().compare(new HouseService().findHouse(houses, firstHouseId),

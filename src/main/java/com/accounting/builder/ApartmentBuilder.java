@@ -1,6 +1,7 @@
 package com.accounting.builder;
 
 import com.accounting.model.Apartment;
+import com.accounting.model.Floor;
 
 public class ApartmentBuilder {
 
@@ -22,6 +23,11 @@ public class ApartmentBuilder {
 
     public ApartmentBuilder area(double area) {
         apartment.setArea(area);
+        return this;
+    }
+
+    public ApartmentBuilder floor(Floor floor) {
+        apartment.setFloor(floor);
         return this;
     }
 

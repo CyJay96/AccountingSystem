@@ -56,12 +56,12 @@ public class House {
             return false;
         }
         House house = (House) o;
-        return id == house.id && countFlatsOnFloor == house.countFlatsOnFloor && Objects.equals(floors, house.floors);
+        return countFlatsOnFloor == house.countFlatsOnFloor && Objects.equals(floors, house.floors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, countFlatsOnFloor, floors);
+        return Objects.hash(countFlatsOnFloor, floors);
     }
 
     @Override

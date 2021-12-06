@@ -87,12 +87,12 @@ public class Apartment {
             return false;
         }
         Apartment apartment = (Apartment) o;
-        return id == apartment.id && countPeople == apartment.countPeople && countRooms == apartment.countRooms && Double.compare(apartment.area, area) == 0 && Objects.equals(floor, apartment.floor);
+        return countPeople == apartment.countPeople && countRooms == apartment.countRooms && Double.compare(apartment.area, area) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, countPeople, countRooms, area, floor);
+        return Objects.hash(countPeople, countRooms, area);
     }
 
     @Override

@@ -53,12 +53,12 @@ public class Floor {
             return false;
         }
         Floor floor = (Floor) o;
-        return id == floor.id && Objects.equals(apartments, floor.apartments) && Objects.equals(house, floor.house);
+        return Objects.equals(apartments, floor.apartments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, apartments, house);
+        return Objects.hash(apartments);
     }
 
     @Override
