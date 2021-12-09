@@ -1,4 +1,4 @@
-package com.accounting.view;
+package com.accounting.service;
 
 import com.accounting.model.House;
 
@@ -6,6 +6,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ViewService {
+
+    private static ViewService viewService;
+
+    private ViewService() {
+    }
+
+    public static synchronized ViewService getViewService() {
+        if (viewService == null) {
+            viewService = new ViewService();
+        }
+        return viewService;
+    }
 
     public void viewAllHouses(List<House> houses) {
         for (House house : houses) {

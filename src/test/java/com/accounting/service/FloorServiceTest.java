@@ -17,31 +17,31 @@ class FloorServiceTest {
     void init() {
         expectedFloor = new Floor();
         for (int i = 0; i < countApartments; ++i) {
-            expectedFloor.addApartment(new ApartmentService().createApartment());
+            expectedFloor.addApartment(ApartmentService.getApartmentService().createApartment());
         }
     }
 
     @Test
     void createFloor() {
-        Floor actualFloor = new FloorService().createFloor(countApartments);
+        Floor actualFloor = FloorService.getFloorService().createFloor(countApartments);
         Assertions.assertEquals(expectedFloor, actualFloor);
     }
 
     @Test
     void cloneFloor() {
-        Floor actualFloor = new FloorService().cloneFloor(expectedFloor);
+        Floor actualFloor = FloorService.getFloorService().cloneFloor(expectedFloor);
         Assertions.assertEquals(expectedFloor, actualFloor);
     }
 
     @Test
     void getCountPeople() {
-        int actualCountPeople = new FloorService().getCountPeople(expectedFloor);
+        int actualCountPeople = FloorService.getFloorService().getCountPeople(expectedFloor);
         Assertions.assertEquals(expectedCountPeople, actualCountPeople);
     }
 
     @Test
     void compare() {
-        boolean actualCompare = new FloorService().compare(expectedFloor, expectedFloor);
+        boolean actualCompare = FloorService.getFloorService().compare(expectedFloor, expectedFloor);
         Assertions.assertTrue(actualCompare);
     }
 

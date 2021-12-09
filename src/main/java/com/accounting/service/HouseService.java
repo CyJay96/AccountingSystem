@@ -1,6 +1,7 @@
 package com.accounting.service;
 
 import com.accounting.builder.HouseBuilder;
+import com.accounting.dao.HouseDao;
 import com.accounting.dao.HouseDaoImpl;
 import com.accounting.model.Apartment;
 import com.accounting.model.Floor;
@@ -10,9 +11,18 @@ import java.util.List;
 
 public class HouseService {
 
-    private final HouseDaoImpl houseDao = new HouseDaoImpl();
+    private static HouseService houseService;
+    private final HouseDao houseDao;
 
-    public HouseService() {
+    private HouseService() {
+        houseDao = new HouseDaoImpl();
+    }
+
+    public static synchronized HouseService getHouseService() {
+        if (houseService == null) {
+            houseService = new HouseService();
+        }
+        return houseService;
     }
 
     public House findHouseSQL(int id) {
@@ -40,10 +50,10 @@ public class HouseService {
                 .countFlatsOnFloor(countFlatsOnFloor)
                 .build();
 
-        house.addFloor(new FloorService().createFloor(countFlatsOnFloor));
+        house.addFloor(FloorService.getFloorService().createFloor(countFlatsOnFloor));
         int indexFirstFloor = 0;
         for (int i = 0; i < countFloors - 1; ++i) {
-            house.addFloor(new FloorService().cloneFloor(house.getFloors().get(indexFirstFloor)));
+            house.addFloor(FloorService.getFloorService().cloneFloor(house.getFloors().get(indexFirstFloor)));
         }
 
         return house;
@@ -54,7 +64,7 @@ public class HouseService {
                 .countFlatsOnFloor(house.getCountFlatsOnFloor())
                 .build();
         for (Floor floor : house.getFloors()) {
-            newHouse.addFloor(new FloorService().cloneFloor(floor));
+            newHouse.addFloor(FloorService.getFloorService().cloneFloor(floor));
         }
 
         return newHouse;
@@ -85,7 +95,7 @@ public class HouseService {
     }
 
     public int getCountPeople(House house) {
-        FloorService floorService = new FloorService();
+        FloorService floorService = FloorService.getFloorService();
 
         int countPeople = 0;
 

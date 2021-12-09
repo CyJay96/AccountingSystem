@@ -2,6 +2,7 @@ package com.accounting.view;
 
 import com.accounting.model.House;
 import com.accounting.service.HouseService;
+import com.accounting.service.ViewService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class UserView {
         while (work) {
 
             if (houses.isEmpty()) {
-                houses = new HouseService().findAllHousesSQL();
+                houses = HouseService.getHouseService().findAllHousesSQL();
             }
 
             int minOption = 1;
@@ -30,7 +31,7 @@ public class UserView {
             System.out.println("5 - Compare houses");
             System.out.println("6 - Exit");
 
-            int userChoice = new ViewService().inputIntValue(minOption, maxOption);
+            int userChoice = ViewService.getViewService().inputIntValue(minOption, maxOption);
             System.out.println();
 
             switch (userChoice) {
@@ -38,15 +39,15 @@ public class UserView {
                     int minCountFloorsOrFlats = 1;
 
                     System.out.print("Enter the number of floors: ");
-                    int countFloors = new ViewService().inputIntValue(minCountFloorsOrFlats);
+                    int countFloors = ViewService.getViewService().inputIntValue(minCountFloorsOrFlats);
 
                     System.out.print("Enter the number of apartments on a floor: ");
-                    int countFlatsOnFloor = new ViewService().inputIntValue(minCountFloorsOrFlats);
+                    int countFlatsOnFloor = ViewService.getViewService().inputIntValue(minCountFloorsOrFlats);
 
-                    House house = new HouseService().createHouse(countFloors, countFlatsOnFloor);
+                    House house = HouseService.getHouseService().createHouse(countFloors, countFlatsOnFloor);
 
                     houses.add(house); // add in list
-                    new HouseService().saveHouseSQL(house); // add in database
+                    HouseService.getHouseService().saveHouseSQL(house); // add in database
                     break;
                 case 2: // remove the house
                     if (houses.isEmpty()) {
@@ -55,21 +56,22 @@ public class UserView {
                     }
 
                     System.out.print("Select the house to remove: ");
-                    new ViewService().viewIdAllHouses(houses);
-                    int removeHouseId = new ViewService().inputHouseId(houses);
+                    ViewService.getViewService().viewIdAllHouses(houses);
+                    int removeHouseId = ViewService.getViewService().inputHouseId(houses);
 
-                    House h = new HouseService().createHouse(1, 2);
-                    new HouseService().deleteHouseSQL(h);
+                    House h = HouseService.getHouseService().createHouse(1, 2);
+                    HouseService.getHouseService().deleteHouseSQL(h);
 
-                    new HouseService().deleteHouseSQL(new HouseService().findHouseSQL(removeHouseId)); // delete in database
-                    houses.remove(new HouseService().findHouse(houses, removeHouseId)); // delete in list
+                    HouseService.getHouseService().deleteHouseSQL(
+                            HouseService.getHouseService().findHouseSQL(removeHouseId)); // delete in database
+                    houses.remove(HouseService.getHouseService().findHouse(houses, removeHouseId)); // delete in list
                     break;
                 case 3: // viewing existing houses
                     if (houses.isEmpty()) {
                         System.out.println("No houses to view");
                     } else {
                         System.out.println("Existing houses:");
-                        new ViewService().viewAllHouses(houses);
+                        ViewService.getViewService().viewAllHouses(houses);
                     }
                     break;
                 case 4: // detailed view of the house
@@ -79,8 +81,8 @@ public class UserView {
                     }
 
                     System.out.print("Select the house to detailed view: ");
-                    new ViewService().viewIdAllHouses(houses);
-                    int viewHouseId = new ViewService().inputHouseId(houses);
+                    ViewService.getViewService().viewIdAllHouses(houses);
+                    int viewHouseId = ViewService.getViewService().inputHouseId(houses);
 
                     int minDetailedOption = 1;
                     int maxDetailedOption = 4;
@@ -95,21 +97,21 @@ public class UserView {
                         System.out.println("3 - The number of people living in the house");
                         System.out.println("4 - Exit");
 
-                        int detailedChoice = new ViewService().inputIntValue(minDetailedOption, maxDetailedOption);
+                        int detailedChoice = ViewService.getViewService().inputIntValue(minDetailedOption, maxDetailedOption);
                         System.out.println();
 
                         switch (detailedChoice) {
                             case 1: // the total area of the house
-                                System.out.println("The total area of the house: " +
-                                        new HouseService().getHouseArea(new HouseService().findHouse(houses, viewHouseId)));
+                                System.out.println("The total area of the house: " + HouseService.getHouseService()
+                                        .getHouseArea(HouseService.getHouseService().findHouse(houses, viewHouseId)));
                                 break;
                             case 2: // the number of floors of the house
-                                System.out.println("The number of floors of the house: " +
-                                        new HouseService().getCountFloors(new HouseService().findHouse(houses, viewHouseId)));
+                                System.out.println("The number of floors of the house: " + HouseService.getHouseService()
+                                        .getCountFloors(HouseService.getHouseService().findHouse(houses, viewHouseId)));
                                 break;
                             case 3: // the number of people living in the house
-                                System.out.println("The number of people living in the house: " +
-                                        new HouseService().getCountPeople(new HouseService().findHouse(houses, viewHouseId)));
+                                System.out.println("The number of people living in the house: " + HouseService.getHouseService()
+                                        .getCountPeople(HouseService.getHouseService().findHouse(houses, viewHouseId)));
                                 break;
                             case 4: // exit
                                 detailedViewWork = false;
@@ -122,14 +124,14 @@ public class UserView {
                     break;
                 case 5: // compare houses
                     System.out.print("Select the first house for comparison: ");
-                    new ViewService().viewIdAllHouses(houses);
-                    int firstHouseId = new ViewService().inputHouseId(houses);
+                    ViewService.getViewService().viewIdAllHouses(houses);
+                    int firstHouseId = ViewService.getViewService().inputHouseId(houses);
                     System.out.print("Select the second house for comparison: ");
-                    new ViewService().viewIdAllHouses(houses);
-                    int secondHouseId = new ViewService().inputHouseId(houses);
+                    ViewService.getViewService().viewIdAllHouses(houses);
+                    int secondHouseId = ViewService.getViewService().inputHouseId(houses);
 
-                    if (new HouseService().compare(new HouseService().findHouse(houses, firstHouseId),
-                            new HouseService().findHouse(houses, secondHouseId))) {
+                    if (HouseService.getHouseService().compare(HouseService.getHouseService().findHouse(houses, firstHouseId),
+                            HouseService.getHouseService().findHouse(houses, secondHouseId))) {
                         System.out.println("These are identical houses");
                     } else {
                         System.out.println("These are different houses");

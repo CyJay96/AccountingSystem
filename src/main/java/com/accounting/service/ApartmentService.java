@@ -5,7 +5,16 @@ import com.accounting.model.Apartment;
 
 public class ApartmentService {
 
-    public ApartmentService() {
+    private static ApartmentService apartmentService;
+
+    private ApartmentService() {
+    }
+
+    public static synchronized ApartmentService getApartmentService() {
+        if (apartmentService == null) {
+            apartmentService = new ApartmentService();
+        }
+        return apartmentService;
     }
 
     public Apartment createApartment() {

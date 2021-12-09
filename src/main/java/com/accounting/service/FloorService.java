@@ -5,13 +5,22 @@ import com.accounting.model.Floor;
 
 public class FloorService {
 
-    public FloorService() {
+    private static FloorService floorService;
+
+    private FloorService() {
+    }
+
+    public static synchronized FloorService getFloorService() {
+        if (floorService == null) {
+            floorService = new FloorService();
+        }
+        return floorService;
     }
 
     public Floor createFloor(int countApartments) {
         Floor floor = new Floor();
         for (int i = 0; i < countApartments; ++i) {
-            floor.addApartment(new ApartmentService().createApartment());
+            floor.addApartment(ApartmentService.getApartmentService().createApartment());
         }
 
         return floor;
@@ -20,7 +29,7 @@ public class FloorService {
     public Floor cloneFloor(Floor floor) {
         Floor newFloor = new Floor();
         for (Apartment apartment : floor.getApartments()) {
-            newFloor.addApartment(new ApartmentService().cloneApartment(apartment));
+            newFloor.addApartment(ApartmentService.getApartmentService().cloneApartment(apartment));
         }
 
         return newFloor;

@@ -31,10 +31,10 @@ class HouseServiceTest {
                 .countFlatsOnFloor(countFlatsOnFloor)
                 .build();
 
-        expectedHouse.addFloor(new FloorService().createFloor(countFlatsOnFloor));
+        expectedHouse.addFloor(FloorService.getFloorService().createFloor(countFlatsOnFloor));
         int indexFirstFloor = 0;
         for (int i = 0; i < expectedCountFloors - 1; ++i) {
-            expectedHouse.addFloor(new FloorService().cloneFloor(expectedHouse.getFloors().get(indexFirstFloor)));
+            expectedHouse.addFloor(FloorService.getFloorService().cloneFloor(expectedHouse.getFloors().get(indexFirstFloor)));
         }
     }
 
@@ -43,37 +43,44 @@ class HouseServiceTest {
         session = HibernateSessionFactory.getSessionFactory().openSession();
     }
 
+    @AfterEach
+    void closeSession() {
+        if (session != null) {
+            session.close();
+        }
+    }
+
     @Test
     void findHouseSQL() {
-        new HouseService().saveHouseSQL(expectedHouse);
-        House actualHouse = new HouseService().findHouseSQL(expectedHouse.getId());
+        HouseService.getHouseService().saveHouseSQL(expectedHouse);
+        House actualHouse = HouseService.getHouseService().findHouseSQL(expectedHouse.getId());
         Assertions.assertNotNull(actualHouse);
     }
 
     @Test
     void saveHouseSQL() {
-        new HouseService().saveHouseSQL(expectedHouse);
+        HouseService.getHouseService().saveHouseSQL(expectedHouse);
         House actualHouse = session.find(House.class, expectedHouse.getId());
         Assertions.assertNotNull(actualHouse);
     }
 
     @Test
     void deleteHouseSQL() {
-        new HouseService().saveHouseSQL(expectedHouse);
+        HouseService.getHouseService().saveHouseSQL(expectedHouse);
         int id = expectedHouse.getId();
-        new HouseService().deleteHouseSQL(expectedHouse);
+        HouseService.getHouseService().deleteHouseSQL(expectedHouse);
         House actualHouse = session.find(House.class, id);
         Assertions.assertNull(actualHouse);
     }
 
     @Test
     void updateHouseSQL() {
-        House updatedHouse = new HouseService().cloneHouse(expectedHouse);
-        new HouseService().saveHouseSQL(updatedHouse);
+        House updatedHouse = HouseService.getHouseService().cloneHouse(expectedHouse);
+        HouseService.getHouseService().saveHouseSQL(updatedHouse);
 
         int indexFirstFloor = 0;
-        updatedHouse.addFloor(new FloorService().cloneFloor(updatedHouse.getFloors().get(indexFirstFloor)));
-        new HouseService().updateHouseSQL(updatedHouse);
+        updatedHouse.addFloor(FloorService.getFloorService().cloneFloor(updatedHouse.getFloors().get(indexFirstFloor)));
+        HouseService.getHouseService().updateHouseSQL(updatedHouse);
 
         House actualHouse = session.find(House.class, updatedHouse.getId());
         Assertions.assertNotNull(actualHouse);
@@ -81,29 +88,29 @@ class HouseServiceTest {
 
     @Test
     void findAllHousesSQL() {
-        House newHouse = new HouseService().cloneHouse(expectedHouse);
+        House newHouse = HouseService.getHouseService().cloneHouse(expectedHouse);
 
         List<House> expectedHouseList = new ArrayList<>();
         expectedHouseList.add(expectedHouse);
         expectedHouseList.add(newHouse);
 
-        new HouseService().saveHouseSQL(expectedHouse);
-        new HouseService().saveHouseSQL(newHouse);
+        HouseService.getHouseService().saveHouseSQL(expectedHouse);
+        HouseService.getHouseService().saveHouseSQL(newHouse);
 
-        List<House> actualHouseList = new HouseService().findAllHousesSQL();
+        List<House> actualHouseList = HouseService.getHouseService().findAllHousesSQL();
 
-        Assertions.assertNotNull(actualHouseList);
+        Assertions.assertFalse(actualHouseList.isEmpty());
     }
 
     @Test
     void createHouse() {
-        House actualHouse = new HouseService().createHouse(expectedCountFloors, countFlatsOnFloor);
+        House actualHouse = HouseService.getHouseService().createHouse(expectedCountFloors, countFlatsOnFloor);
         Assertions.assertEquals(expectedHouse, actualHouse);
     }
 
     @Test
     void cloneHouse() {
-        House actualHouse = new HouseService().cloneHouse(expectedHouse);
+        House actualHouse = HouseService.getHouseService().cloneHouse(expectedHouse);
         Assertions.assertEquals(expectedHouse, actualHouse);
     }
 
@@ -112,40 +119,33 @@ class HouseServiceTest {
         List<House> houses = new ArrayList<>();
         houses.add(expectedHouse);
 
-        House actualHouse = new HouseService().findHouse(houses, expectedHouse.getId());
+        House actualHouse = HouseService.getHouseService().findHouse(houses, expectedHouse.getId());
 
         Assertions.assertEquals(expectedHouse, actualHouse);
     }
 
     @Test
     void getHouseArea() {
-        double actualHouseArea = new HouseService().getHouseArea(expectedHouse);
+        double actualHouseArea = HouseService.getHouseService().getHouseArea(expectedHouse);
         Assertions.assertEquals(expectedHouseArea, actualHouseArea);
     }
 
     @Test
     void getCountFloors() {
-        int actualCountFloors = new HouseService().getCountFloors(expectedHouse);
+        int actualCountFloors = HouseService.getHouseService().getCountFloors(expectedHouse);
         Assertions.assertEquals(expectedCountFloors, actualCountFloors);
     }
 
     @Test
     void getCountPeople() {
-        int actualCountPeople = new HouseService().getCountPeople(expectedHouse);
+        int actualCountPeople = HouseService.getHouseService().getCountPeople(expectedHouse);
         Assertions.assertEquals(expectedCountPeople, actualCountPeople);
     }
 
     @Test
     void compare() {
-        boolean actualCompare = new HouseService().compare(expectedHouse, expectedHouse);
+        boolean actualCompare = HouseService.getHouseService().compare(expectedHouse, expectedHouse);
         Assertions.assertTrue(actualCompare);
-    }
-
-    @AfterEach
-    void closeSession() {
-        if (session != null) {
-            session.close();
-        }
     }
 
 }
