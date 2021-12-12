@@ -1,3 +1,9 @@
+# Main Application class
+Application.java
+
+# User Interface and User Service classes
+src/main/java/com/accounting/view/
+
 # Node artifact files
 node_modules/
 dist/
