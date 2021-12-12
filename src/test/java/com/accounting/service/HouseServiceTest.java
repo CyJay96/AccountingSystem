@@ -51,13 +51,6 @@ class HouseServiceTest {
     }
 
     @Test
-    void findHouseSQL() {
-        HouseService.getHouseService().saveHouseSQL(expectedHouse);
-        House actualHouse = HouseService.getHouseService().findHouseSQL(expectedHouse.getId());
-        Assertions.assertNotNull(actualHouse);
-    }
-
-    @Test
     void saveHouseSQL() {
         HouseService.getHouseService().saveHouseSQL(expectedHouse);
         House actualHouse = session.find(House.class, expectedHouse.getId());
@@ -83,6 +76,13 @@ class HouseServiceTest {
         HouseService.getHouseService().updateHouseSQL(updatedHouse);
 
         House actualHouse = session.find(House.class, updatedHouse.getId());
+        Assertions.assertNotNull(actualHouse);
+    }
+
+    @Test
+    void findHouseSQL() {
+        HouseService.getHouseService().saveHouseSQL(expectedHouse);
+        House actualHouse = HouseService.getHouseService().findHouseSQL(expectedHouse.getId());
         Assertions.assertNotNull(actualHouse);
     }
 

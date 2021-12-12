@@ -17,7 +17,7 @@ public class House {
     @Column(name = "count_flats_on_floor")
     private int countFlatsOnFloor;
 
-    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Floor> floors = new ArrayList<>();
 
     public House() {

@@ -25,7 +25,7 @@ public class HibernateSessionFactory {
                 sessionFactory = configuration.buildSessionFactory(builder.build());
 
             } catch (Exception exception) {
-                System.out.println("Something went wrong: " + exception);
+                exception.printStackTrace();
             }
         }
         return sessionFactory;

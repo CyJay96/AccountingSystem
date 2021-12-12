@@ -10,14 +10,6 @@ import java.util.List;
 public class HouseDaoImpl implements HouseDao {
 
     @Override
-    public House findById(int id) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        House house = session.get(House.class, id);
-        session.close();
-        return house;
-    }
-
-    @Override
     public void save(House house) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
@@ -42,6 +34,14 @@ public class HouseDaoImpl implements HouseDao {
         session.delete(house);
         transaction.commit();
         session.close();
+    }
+
+    @Override
+    public House findById(int id) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        House house = session.get(House.class, id);
+        session.close();
+        return house;
     }
 
     @Override

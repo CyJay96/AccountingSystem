@@ -25,10 +25,6 @@ public class HouseService {
         return houseService;
     }
 
-    public House findHouseSQL(int id) {
-        return houseDao.findById(id);
-    }
-
     public void saveHouseSQL(House house) {
         houseDao.save(house);
     }
@@ -39,6 +35,10 @@ public class HouseService {
 
     public void updateHouseSQL(House house) {
         houseDao.update(house);
+    }
+
+    public House findHouseSQL(int id) {
+        return houseDao.findById(id);
     }
 
     public List<House> findAllHousesSQL() {
