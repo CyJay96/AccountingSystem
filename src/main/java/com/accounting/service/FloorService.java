@@ -5,22 +5,28 @@ import com.accounting.model.Floor;
 
 public class FloorService {
 
-    private static FloorService floorService;
+    private static volatile FloorService instance;
 
     private FloorService() {
     }
 
-    public static synchronized FloorService getFloorService() {
-        if (floorService == null) {
-            floorService = new FloorService();
+    public static FloorService getInstance() {
+        FloorService localInstance = instance;
+        if (instance == null) {
+            synchronized (ApartmentService.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new FloorService();
+                }
+            }
         }
-        return floorService;
+        return localInstance;
     }
 
     public Floor createFloor(int countApartments) {
         Floor floor = new Floor();
         for (int i = 0; i < countApartments; ++i) {
-            floor.addApartment(ApartmentService.getApartmentService().createApartment());
+            floor.addApartment(ApartmentService.getInstance().createApartment());
         }
 
         return floor;
@@ -29,7 +35,7 @@ public class FloorService {
     public Floor cloneFloor(Floor floor) {
         Floor newFloor = new Floor();
         for (Apartment apartment : floor.getApartments()) {
-            newFloor.addApartment(ApartmentService.getApartmentService().cloneApartment(apartment));
+            newFloor.addApartment(ApartmentService.getInstance().cloneApartment(apartment));
         }
 
         return newFloor;

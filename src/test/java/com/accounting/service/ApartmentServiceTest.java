@@ -25,19 +25,19 @@ class ApartmentServiceTest {
 
     @Test
     void createApartment() {
-        Apartment actualApartment = ApartmentService.getApartmentService().createApartment();
+        Apartment actualApartment = ApartmentService.getInstance().createApartment();
         Assertions.assertEquals(expectedApartment, actualApartment);
     }
 
     @Test
     void cloneApartment() {
-        Apartment actualApartment = ApartmentService.getApartmentService().cloneApartment(expectedApartment);
+        Apartment actualApartment = ApartmentService.getInstance().cloneApartment(expectedApartment);
         Assertions.assertEquals(expectedApartment, actualApartment);
     }
 
     @Test
     void compare() {
-        boolean actualCompare = ApartmentService.getApartmentService().compare(expectedApartment, expectedApartment);
+        boolean actualCompare = ApartmentService.getInstance().compare(expectedApartment, expectedApartment);
         Assertions.assertTrue(actualCompare);
     }
 

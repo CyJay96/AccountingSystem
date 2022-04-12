@@ -31,10 +31,10 @@ class HouseServiceTest {
                 .countFlatsOnFloor(countFlatsOnFloor)
                 .build();
 
-        expectedHouse.addFloor(FloorService.getFloorService().createFloor(countFlatsOnFloor));
+        expectedHouse.addFloor(FloorService.getInstance().createFloor(countFlatsOnFloor));
         int indexFirstFloor = 0;
         for (int i = 0; i < expectedCountFloors - 1; ++i) {
-            expectedHouse.addFloor(FloorService.getFloorService().cloneFloor(expectedHouse.getFloors().get(indexFirstFloor)));
+            expectedHouse.addFloor(FloorService.getInstance().cloneFloor(expectedHouse.getFloors().get(indexFirstFloor)));
         }
     }
 
@@ -52,28 +52,28 @@ class HouseServiceTest {
 
     @Test
     void saveHouseSQL() {
-        HouseService.getHouseService().saveHouseSQL(expectedHouse);
+        HouseService.getInstance().saveHouseSQL(expectedHouse);
         House actualHouse = session.find(House.class, expectedHouse.getId());
         Assertions.assertNotNull(actualHouse);
     }
 
     @Test
     void deleteHouseSQL() {
-        HouseService.getHouseService().saveHouseSQL(expectedHouse);
+        HouseService.getInstance().saveHouseSQL(expectedHouse);
         int id = expectedHouse.getId();
-        HouseService.getHouseService().deleteHouseSQL(expectedHouse);
+        HouseService.getInstance().deleteHouseSQL(expectedHouse);
         House actualHouse = session.find(House.class, id);
         Assertions.assertNull(actualHouse);
     }
 
     @Test
     void updateHouseSQL() {
-        House updatedHouse = HouseService.getHouseService().cloneHouse(expectedHouse);
-        HouseService.getHouseService().saveHouseSQL(updatedHouse);
+        House updatedHouse = HouseService.getInstance().cloneHouse(expectedHouse);
+        HouseService.getInstance().saveHouseSQL(updatedHouse);
 
         int indexFirstFloor = 0;
-        updatedHouse.addFloor(FloorService.getFloorService().cloneFloor(updatedHouse.getFloors().get(indexFirstFloor)));
-        HouseService.getHouseService().updateHouseSQL(updatedHouse);
+        updatedHouse.addFloor(FloorService.getInstance().cloneFloor(updatedHouse.getFloors().get(indexFirstFloor)));
+        HouseService.getInstance().updateHouseSQL(updatedHouse);
 
         House actualHouse = session.find(House.class, updatedHouse.getId());
         Assertions.assertNotNull(actualHouse);
@@ -81,36 +81,36 @@ class HouseServiceTest {
 
     @Test
     void findHouseSQL() {
-        HouseService.getHouseService().saveHouseSQL(expectedHouse);
-        House actualHouse = HouseService.getHouseService().findHouseSQL(expectedHouse.getId());
+        HouseService.getInstance().saveHouseSQL(expectedHouse);
+        House actualHouse = HouseService.getInstance().findHouseSQL(expectedHouse.getId());
         Assertions.assertNotNull(actualHouse);
     }
 
     @Test
     void findAllHousesSQL() {
-        House newHouse = HouseService.getHouseService().cloneHouse(expectedHouse);
+        House newHouse = HouseService.getInstance().cloneHouse(expectedHouse);
 
         List<House> expectedHouseList = new ArrayList<>();
         expectedHouseList.add(expectedHouse);
         expectedHouseList.add(newHouse);
 
-        HouseService.getHouseService().saveHouseSQL(expectedHouse);
-        HouseService.getHouseService().saveHouseSQL(newHouse);
+        HouseService.getInstance().saveHouseSQL(expectedHouse);
+        HouseService.getInstance().saveHouseSQL(newHouse);
 
-        List<House> actualHouseList = HouseService.getHouseService().findAllHousesSQL();
+        List<House> actualHouseList = HouseService.getInstance().findAllHousesSQL();
 
         Assertions.assertFalse(actualHouseList.isEmpty());
     }
 
     @Test
     void createHouse() {
-        House actualHouse = HouseService.getHouseService().createHouse(expectedCountFloors, countFlatsOnFloor);
+        House actualHouse = HouseService.getInstance().createHouse(expectedCountFloors, countFlatsOnFloor);
         Assertions.assertEquals(expectedHouse, actualHouse);
     }
 
     @Test
     void cloneHouse() {
-        House actualHouse = HouseService.getHouseService().cloneHouse(expectedHouse);
+        House actualHouse = HouseService.getInstance().cloneHouse(expectedHouse);
         Assertions.assertEquals(expectedHouse, actualHouse);
     }
 
@@ -119,32 +119,32 @@ class HouseServiceTest {
         List<House> houses = new ArrayList<>();
         houses.add(expectedHouse);
 
-        House actualHouse = HouseService.getHouseService().findHouse(houses, expectedHouse.getId());
+        House actualHouse = HouseService.getInstance().findHouse(houses, expectedHouse.getId());
 
         Assertions.assertEquals(expectedHouse, actualHouse);
     }
 
     @Test
     void getHouseArea() {
-        double actualHouseArea = HouseService.getHouseService().getHouseArea(expectedHouse);
+        double actualHouseArea = HouseService.getInstance().getHouseArea(expectedHouse);
         Assertions.assertEquals(expectedHouseArea, actualHouseArea);
     }
 
     @Test
     void getCountFloors() {
-        int actualCountFloors = HouseService.getHouseService().getCountFloors(expectedHouse);
+        int actualCountFloors = HouseService.getInstance().getCountFloors(expectedHouse);
         Assertions.assertEquals(expectedCountFloors, actualCountFloors);
     }
 
     @Test
     void getCountPeople() {
-        int actualCountPeople = HouseService.getHouseService().getCountPeople(expectedHouse);
+        int actualCountPeople = HouseService.getInstance().getCountPeople(expectedHouse);
         Assertions.assertEquals(expectedCountPeople, actualCountPeople);
     }
 
     @Test
     void compare() {
-        boolean actualCompare = HouseService.getHouseService().compare(expectedHouse, expectedHouse);
+        boolean actualCompare = HouseService.getInstance().compare(expectedHouse, expectedHouse);
         Assertions.assertTrue(actualCompare);
     }
 

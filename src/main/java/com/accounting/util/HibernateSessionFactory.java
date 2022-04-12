@@ -9,12 +9,12 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateSessionFactory {
 
-    private static SessionFactory sessionFactory;
+    private static volatile SessionFactory sessionFactory;
 
     private HibernateSessionFactory() {
     }
 
-    public static SessionFactory getSessionFactory() {
+    public static synchronized SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration().configure();

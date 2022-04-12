@@ -11,18 +11,24 @@ import java.util.List;
 
 public class HouseService {
 
-    private static HouseService houseService;
+    private static volatile HouseService instance;
     private final HouseDao houseDao;
 
     private HouseService() {
         houseDao = new HouseDaoImpl();
     }
 
-    public static synchronized HouseService getHouseService() {
-        if (houseService == null) {
-            houseService = new HouseService();
+    public static HouseService getInstance() {
+        HouseService localInstance = instance;
+        if (instance == null) {
+            synchronized (ApartmentService.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new HouseService();
+                }
+            }
         }
-        return houseService;
+        return localInstance;
     }
 
     public void saveHouseSQL(House house) {
@@ -50,10 +56,10 @@ public class HouseService {
                 .countFlatsOnFloor(countFlatsOnFloor)
                 .build();
 
-        house.addFloor(FloorService.getFloorService().createFloor(countFlatsOnFloor));
+        house.addFloor(FloorService.getInstance().createFloor(countFlatsOnFloor));
         int indexFirstFloor = 0;
         for (int i = 0; i < countFloors - 1; ++i) {
-            house.addFloor(FloorService.getFloorService().cloneFloor(house.getFloors().get(indexFirstFloor)));
+            house.addFloor(FloorService.getInstance().cloneFloor(house.getFloors().get(indexFirstFloor)));
         }
 
         return house;
@@ -64,7 +70,7 @@ public class HouseService {
                 .countFlatsOnFloor(house.getCountFlatsOnFloor())
                 .build();
         for (Floor floor : house.getFloors()) {
-            newHouse.addFloor(FloorService.getFloorService().cloneFloor(floor));
+            newHouse.addFloor(FloorService.getInstance().cloneFloor(floor));
         }
 
         return newHouse;
@@ -95,7 +101,7 @@ public class HouseService {
     }
 
     public int getCountPeople(House house) {
-        FloorService floorService = FloorService.getFloorService();
+        FloorService floorService = FloorService.getInstance();
 
         int countPeople = 0;
 
