@@ -41,6 +41,17 @@ public class FloorService {
         return newFloor;
     }
 
+    public Floor cloneFloorWithoutPeople(Floor floor) {
+        Floor newFloor = new Floor();
+        for (Apartment apartment : floor.getApartments()) {
+            newFloor.addApartment(ApartmentService.getInstance().cloneApartment(apartment));
+            int countPeople = (int) (Math.random() * 4) + 1; // [1; 4]
+            newFloor.getApartments().get(newFloor.getApartments().size() - 1).setCountPeople(countPeople);
+        }
+
+        return newFloor;
+    }
+
     public int getCountPeople(Floor floor) {
         int countPeople = 0;
 

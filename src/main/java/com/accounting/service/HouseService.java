@@ -59,7 +59,7 @@ public class HouseService {
         house.addFloor(FloorService.getInstance().createFloor(countFlatsOnFloor));
         int indexFirstFloor = 0;
         for (int i = 0; i < countFloors - 1; ++i) {
-            house.addFloor(FloorService.getInstance().cloneFloor(house.getFloors().get(indexFirstFloor)));
+            house.addFloor(FloorService.getInstance().cloneFloorWithoutPeople(house.getFloors().get(indexFirstFloor)));
         }
 
         return house;

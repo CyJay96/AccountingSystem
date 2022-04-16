@@ -24,8 +24,8 @@ public class ApartmentService {
     }
 
     public Apartment createApartment() {
-        int countPeople = (int) (Math.random() * 2) + 2; // [2; 4]
-        int countRooms = (int) (Math.random() * 3) + 1; // [1; 4]
+        int countPeople = (int) (Math.random() * 4) + 1; // [1; 4]
+        int countRooms = (int) (Math.random() * 4) + 1; // [1; 4]
         double area = Math.random() * 50 + 30; // [30; 80]
         area = Math.ceil(area * 100) / 100; // rounding to two characters (cause 100)
 
