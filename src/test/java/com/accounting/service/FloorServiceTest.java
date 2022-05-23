@@ -10,8 +10,8 @@ class FloorServiceTest {
     private Floor expectedFloor;
 
     private final int countApartments = 4;
-    private final int countPeopleOnFlat = 3;
-    private final int expectedCountPeople = countApartments * countPeopleOnFlat;
+    private final int countPeopleInFlat = 3;
+    private final int expectedCountPeople = countApartments * countPeopleInFlat;
 
     @BeforeEach
     void init() {
@@ -24,6 +24,11 @@ class FloorServiceTest {
     @Test
     void createFloor() {
         Floor actualFloor = FloorService.getInstance().createFloor(countApartments);
+        for (int i = 0; i < countApartments; ++i) {
+            actualFloor.getApartments().get(i).setCountPeople(expectedFloor.getApartments().get(i).getCountPeople());
+            actualFloor.getApartments().get(i).setCountRooms(expectedFloor.getApartments().get(i).getCountRooms());
+            actualFloor.getApartments().get(i).setArea(expectedFloor.getApartments().get(i).getArea());
+        }
         Assertions.assertEquals(expectedFloor, actualFloor);
     }
 
@@ -34,8 +39,21 @@ class FloorServiceTest {
     }
 
     @Test
+    void cloneFloorWithoutPeople() {
+        Floor actualFloor = FloorService.getInstance().cloneFloorWithoutPeople(expectedFloor);
+        for (int i = 0; i < countApartments; ++i) {
+            actualFloor.getApartments().get(i).setCountPeople(expectedFloor.getApartments().get(i).getCountPeople());
+        }
+        Assertions.assertEquals(expectedFloor, actualFloor);
+    }
+
+    @Test
     void getCountPeople() {
-        int actualCountPeople = FloorService.getInstance().getCountPeople(expectedFloor);
+        Floor actualFloor = FloorService.getInstance().cloneFloorWithoutPeople(expectedFloor);
+        for (int i = 0; i < countApartments; ++i) {
+            actualFloor.getApartments().get(i).setCountPeople(countPeopleInFlat);
+        }
+        int actualCountPeople = FloorService.getInstance().getCountPeople(actualFloor);
         Assertions.assertEquals(expectedCountPeople, actualCountPeople);
     }
 

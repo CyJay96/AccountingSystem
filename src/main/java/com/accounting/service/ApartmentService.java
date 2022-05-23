@@ -1,6 +1,5 @@
 package com.accounting.service;
 
-import com.accounting.builder.ApartmentBuilder;
 import com.accounting.model.Apartment;
 
 public class ApartmentService {
@@ -29,7 +28,8 @@ public class ApartmentService {
         double area = Math.random() * 50 + 30; // [30; 80]
         area = Math.ceil(area * 100) / 100; // rounding to two characters (cause 100)
 
-        return new ApartmentBuilder()
+        return new Apartment()
+                .toBuilder()
                 .countPeople(countPeople)
                 .countRooms(countRooms)
                 .area(area)
@@ -37,7 +37,8 @@ public class ApartmentService {
     }
 
     public Apartment cloneApartment(Apartment apartment) {
-        return new ApartmentBuilder()
+        return new Apartment()
+                .toBuilder()
                 .countPeople(apartment.getCountPeople())
                 .countRooms(apartment.getCountRooms())
                 .area(apartment.getArea())

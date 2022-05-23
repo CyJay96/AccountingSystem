@@ -1,11 +1,18 @@
 package com.accounting.model;
 
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "apartments")
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Apartment {
 
     @Id
@@ -24,59 +31,6 @@ public class Apartment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_id")
     private Floor floor;
-
-    public Apartment() {
-    }
-
-    public Apartment(int countPeople, int countRooms, double area) {
-        this.countPeople = countPeople;
-        this.countRooms = countRooms;
-        this.area = area;
-    }
-
-    public Apartment(int id, int countPeople, int countRooms, double area, Floor floor) {
-        this.id = id;
-        this.countPeople = countPeople;
-        this.countRooms = countRooms;
-        this.area = area;
-        this.floor = floor;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getCountPeople() {
-        return countPeople;
-    }
-
-    public void setCountPeople(int countPeople) {
-        this.countPeople = countPeople;
-    }
-
-    public int getCountRooms() {
-        return countRooms;
-    }
-
-    public void setCountRooms(int countRooms) {
-        this.countRooms = countRooms;
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
-    }
-
-    public Floor getFloor() {
-        return floor;
-    }
-
-    public void setFloor(Floor floor) {
-        this.floor = floor;
-    }
 
     @Override
     public boolean equals(Object o) {

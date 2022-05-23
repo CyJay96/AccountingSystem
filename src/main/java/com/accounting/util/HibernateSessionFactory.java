@@ -23,7 +23,6 @@ public class HibernateSessionFactory {
                 configuration.addAnnotatedClass(Apartment.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());
-
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

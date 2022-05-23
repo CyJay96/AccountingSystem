@@ -1,6 +1,6 @@
 package com.accounting.service;
 
-import com.accounting.builder.HouseBuilder;
+import com.accounting.model.Apartment;
 import com.accounting.model.House;
 import com.accounting.util.HibernateSessionFactory;
 import org.hibernate.Session;
@@ -18,24 +18,31 @@ class HouseServiceTest {
 
     private House expectedHouse;
 
-    private final int expectedCountFloors = 5;
     private final int countFlatsOnFloor = 4;
-    private final int countPeopleOnFlat = 3;
-    private final int expectedCountPeople = expectedCountFloors * countFlatsOnFloor * countPeopleOnFlat;
-
-    private final double expectedHouseArea = 261.61;
+    private final int expectedCountFloors = 5;
+    private int expectedCountPeople;
+    private double expectedHouseArea;
 
     @BeforeEach
     void init() {
-        expectedHouse = new HouseBuilder()
+        expectedHouse = new House()
+                .toBuilder()
                 .countFlatsOnFloor(countFlatsOnFloor)
                 .build();
-
         expectedHouse.addFloor(FloorService.getInstance().createFloor(countFlatsOnFloor));
         int indexFirstFloor = 0;
         for (int i = 0; i < expectedCountFloors - 1; ++i) {
-            expectedHouse.addFloor(FloorService.getInstance().cloneFloor(expectedHouse.getFloors().get(indexFirstFloor)));
+            expectedHouse.addFloor(FloorService.getInstance().cloneFloorWithoutPeople(expectedHouse.getFloors().get(indexFirstFloor)));
         }
+
+        for (int i = 0; i < expectedHouse.getFloors().size(); ++i) {
+            expectedCountPeople += FloorService.getInstance().getCountPeople(expectedHouse.getFloors().get(i));
+        }
+
+        for (Apartment apartment : expectedHouse.getFloors().get(indexFirstFloor).getApartments()) {
+            expectedHouseArea += apartment.getArea();
+        }
+        expectedHouseArea = Math.ceil(expectedHouseArea * 100) / 100;
     }
 
     @BeforeEach
@@ -105,6 +112,16 @@ class HouseServiceTest {
     @Test
     void createHouse() {
         House actualHouse = HouseService.getInstance().createHouse(expectedCountFloors, countFlatsOnFloor);
+        for (int i = 0; i < actualHouse.getFloors().size(); ++i) {
+            for (int j = 0; j < actualHouse.getFloors().get(i).getApartments().size(); ++j) {
+                actualHouse.getFloors().get(i).getApartments().get(j).
+                        setCountPeople(expectedHouse.getFloors().get(i).getApartments().get(j).getCountPeople());
+                actualHouse.getFloors().get(i).getApartments().get(j).
+                        setCountRooms(expectedHouse.getFloors().get(i).getApartments().get(j).getCountRooms());
+                actualHouse.getFloors().get(i).getApartments().get(j).
+                        setArea(expectedHouse.getFloors().get(i).getApartments().get(j).getArea());
+            }
+        }
         Assertions.assertEquals(expectedHouse, actualHouse);
     }
 
@@ -126,7 +143,14 @@ class HouseServiceTest {
 
     @Test
     void getHouseArea() {
-        double actualHouseArea = HouseService.getInstance().getHouseArea(expectedHouse);
+        House actualHouse = HouseService.getInstance().createHouse(expectedCountFloors, countFlatsOnFloor);
+        for (int i = 0; i < actualHouse.getFloors().size(); ++i) {
+            for (int j = 0; j < actualHouse.getFloors().get(i).getApartments().size(); ++j) {
+                actualHouse.getFloors().get(i).getApartments().get(j).
+                        setArea(expectedHouse.getFloors().get(i).getApartments().get(j).getArea());
+            }
+        }
+        double actualHouseArea = HouseService.getInstance().getHouseArea(actualHouse);
         Assertions.assertEquals(expectedHouseArea, actualHouseArea);
     }
 
@@ -138,7 +162,14 @@ class HouseServiceTest {
 
     @Test
     void getCountPeople() {
-        int actualCountPeople = HouseService.getInstance().getCountPeople(expectedHouse);
+        House actualHouse = HouseService.getInstance().createHouse(expectedCountFloors, countFlatsOnFloor);
+        for (int i = 0; i < actualHouse.getFloors().size(); ++i) {
+            for (int j = 0; j < actualHouse.getFloors().get(i).getApartments().size(); ++j) {
+                actualHouse.getFloors().get(i).getApartments().get(j).
+                        setCountPeople(expectedHouse.getFloors().get(i).getApartments().get(j).getCountPeople());
+            }
+        }
+        int actualCountPeople = HouseService.getInstance().getCountPeople(actualHouse);
         Assertions.assertEquals(expectedCountPeople, actualCountPeople);
     }
 

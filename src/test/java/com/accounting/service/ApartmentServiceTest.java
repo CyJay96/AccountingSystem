@@ -1,6 +1,5 @@
 package com.accounting.service;
 
-import com.accounting.builder.ApartmentBuilder;
 import com.accounting.model.Apartment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,8 @@ class ApartmentServiceTest {
 
     @BeforeEach
     void init() {
-        expectedApartment = new ApartmentBuilder()
+        expectedApartment = new Apartment()
+                .toBuilder()
                 .countPeople(countPeople)
                 .countRooms(countRooms)
                 .area(area)
@@ -26,6 +26,9 @@ class ApartmentServiceTest {
     @Test
     void createApartment() {
         Apartment actualApartment = ApartmentService.getInstance().createApartment();
+        actualApartment.setCountPeople(countPeople);
+        actualApartment.setCountRooms(countRooms);
+        actualApartment.setArea(area);
         Assertions.assertEquals(expectedApartment, actualApartment);
     }
 

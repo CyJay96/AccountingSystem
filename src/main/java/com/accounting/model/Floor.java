@@ -1,6 +1,8 @@
 package com.accounting.model;
 
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "floors")
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Floor {
 
     @Id
@@ -20,29 +27,6 @@ public class Floor {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_id")
     private House house;
-
-    public Floor() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public List<Apartment> getApartments() {
-        return apartments;
-    }
-
-    public void setApartments(List<Apartment> apartments) {
-        this.apartments = apartments;
-    }
-
-    public House getHouse() {
-        return house;
-    }
-
-    public void setHouse(House house) {
-        this.house = house;
-    }
 
     @Override
     public boolean equals(Object o) {

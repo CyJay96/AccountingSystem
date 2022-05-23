@@ -1,6 +1,5 @@
 package com.accounting.service;
 
-import com.accounting.builder.HouseBuilder;
 import com.accounting.dao.HouseDao;
 import com.accounting.dao.HouseDaoImpl;
 import com.accounting.model.Apartment;
@@ -52,7 +51,8 @@ public class HouseService {
     }
 
     public House createHouse(int countFloors, int countFlatsOnFloor) {
-        House house = new HouseBuilder()
+        House house = new House()
+                .toBuilder()
                 .countFlatsOnFloor(countFlatsOnFloor)
                 .build();
 
@@ -66,7 +66,8 @@ public class HouseService {
     }
 
     public House cloneHouse(House house) {
-        House newHouse = new HouseBuilder()
+        House newHouse = new House()
+                .toBuilder()
                 .countFlatsOnFloor(house.getCountFlatsOnFloor())
                 .build();
         for (Floor floor : house.getFloors()) {

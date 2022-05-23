@@ -1,6 +1,8 @@
 package com.accounting.model;
 
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "houses")
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class House {
 
     @Id
@@ -19,33 +26,6 @@ public class House {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Floor> floors = new ArrayList<>();
-
-    public House() {
-    }
-
-    public House(int countFlatsOnFloor) {
-        this.countFlatsOnFloor = countFlatsOnFloor;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getCountFlatsOnFloor() {
-        return countFlatsOnFloor;
-    }
-
-    public void setCountFlatsOnFloor(int countFlatsOnFloor) {
-        this.countFlatsOnFloor = countFlatsOnFloor;
-    }
-
-    public List<Floor> getFloors() {
-        return floors;
-    }
-
-    public void setFloors(List<Floor> floors) {
-        this.floors = floors;
-    }
 
     @Override
     public boolean equals(Object o) {
